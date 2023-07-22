@@ -55,7 +55,7 @@ const DraggableElement: React.FC<DraggableElementProps> = ({
       >
         <div
           ref={elementRef}
-          style={{ border: resizableDivVisible ? "1px solid #f00" : "", padding: "10px", cursor: "move" }}
+          style={{ border: resizableDivVisible ? "1px solid #f00" : "", padding: "10px", cursor: "move", maxWidth: "100%" }}
               >
                   <ResizableDiv width={200} height={200} isTopText={isTopText} />
         </div>

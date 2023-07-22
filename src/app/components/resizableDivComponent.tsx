@@ -95,7 +95,7 @@ const ResizableDiv: React.FC<ResizableDivProps> = ({ width, height, isTopText })
         height={height}
         handle={
           resizableDivVisible && (
-            <div>
+            <div style={{maxWidth: "100%"}}>
               <CustomResizeHandle handle="n" />
               <CustomResizeHandle handle="ne" />
               <CustomResizeHandle handle="e" />

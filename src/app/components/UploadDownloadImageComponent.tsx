@@ -69,6 +69,9 @@ const UploadDownloadImageComponent: FC<
         });
       }
     }, 2000)
+    setTimeout(() => {
+      setResizableDivVisible(true)
+    }, 4000);
   };
   const handleClearImage = () => {
     if (!downloadDisabled) {

@@ -1,7 +1,6 @@
 "use client";
 import UploadDownloadImageComponent from "./components/UploadDownloadImageComponent";
 import EditImageComponent from "./components/EditImageComponent";
-import DraggableElement from "./components/draggableComponent";
 
 const HomePage: React.FC = () => {
   return (

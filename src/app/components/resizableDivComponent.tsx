@@ -86,6 +86,7 @@ const ResizableDiv: React.FC<ResizableDivProps> = ({ width, height, isTopText })
     textShadow: `-1px -1px 0 ${textShadowColor}, 1px -1px 0 ${textShadowColor}, -1px 1px 0 ${textShadowColor}, 1px 1px 0 ${textShadowColor}`,
     fontFamily: `${fontFamily}`,
       textAlign: "center",
+      maxWidth: "100%",
   };
   return (
     <div style={{ position: "relative" }}>

@@ -42,7 +42,8 @@ const DraggableElement: React.FC<DraggableElementProps> = ({
         border: resizableDivVisible ? "1px solid #ccc" : "",
         padding: "10px",
         position: "relative",
-        height: "400px",
+          height: "400px",
+        maxWidth: "100%"
       }}
     >
       {/* Draggable Element */}

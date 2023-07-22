@@ -1,7 +1,6 @@
 "use client";
-import React from 'react';
-import UploadDownloadImageComponent from './components/display/UploadDownloadImageComponent';
-import EditImageComponent from './components/display/EditImageComponent';
+import UploadDownloadImageComponent from "./components/UploadDownloadImageComponent";
+import EditImageComponent from "./components/EditImageComponent";
 
 const HomePage: React.FC = () => {
   return (

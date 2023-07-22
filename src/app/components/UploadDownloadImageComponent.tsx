@@ -1,7 +1,8 @@
 import React, { FC, useState, useRef } from "react";
-import ButtonComponent from "../input/button";
+import ButtonComponent from "./button";
 import html2canvas from "html2canvas";
 import { useEditImageProperties } from "@/app/stores/EditImageProperties";
+import ResizableDiv from "./resizableDivComponent";
 import cn from "classnames";
 
 interface UploadDownloadImageComponentProps {}
@@ -12,18 +13,21 @@ const UploadDownloadImageComponent: FC<
   //Taken from store
   const editImageProperties = useEditImageProperties();
   // Read values
+  const isDisabled = editImageProperties.editImageProperties.isDisabled;
   const fontFamily = editImageProperties.editImageProperties.fontFamily;
   const isPortrait = editImageProperties.editImageProperties.isPortrait;
   const imageResize = editImageProperties.editImageProperties.imageResize;
   const imageTopText = editImageProperties.editImageProperties.imageTopText;
   const imageTopTextColor =
     editImageProperties.editImageProperties.imageTopTextColor;
-  const imageTopTextOutlineColor = editImageProperties.editImageProperties.imageTopTextOutlineColor
+  const imageTopTextOutlineColor =
+    editImageProperties.editImageProperties.imageTopTextOutlineColor;
   const imageBottomText =
     editImageProperties.editImageProperties.imageBottomText;
   const imageBottomTextColor =
     editImageProperties.editImageProperties.imageBottomTextColor;
-  const imageBottomTextOutlineColor = editImageProperties.editImageProperties.imageBottomTextOutlineColor;
+  const imageBottomTextOutlineColor =
+    editImageProperties.editImageProperties.imageBottomTextOutlineColor;
   //Set values
   const setIsEditImagePropertiesDisabled = editImageProperties.setIsDisabled;
   const setFontFamily = editImageProperties.setFontFamily;
@@ -34,8 +38,7 @@ const UploadDownloadImageComponent: FC<
   const [downloadDisabled, setDownloadDisabled] = useState<boolean>(true);
   const [uploadHidden, setUploadHidden] = useState<boolean>(true);
   //Other variables
-  const imageText = ["imageTopText", "imageBottomText"];
- // Functions
+  // Functions
   const handleUpload = () => {
     setUploadHidden(false);
   };
@@ -77,62 +80,58 @@ const UploadDownloadImageComponent: FC<
   const imageLayout = () => {
     switch (isPortrait) {
       case "portrait":
-        return "w-[35vw] h-[70vh] text-center"
+        return "w-[40vw] h-[70vh]";
       case "landscape":
-        return "w-[70vw] h-[75vh] text-center";
+        return "w-[70vw] h-[75vh]";
     }
   };
 
   return (
     <div className={cn(imageLayout(), "bg-white")}>
-      <div
-        ref={divRef}
-        className={cn(
-          imageLayout(),
-          "text-8xl flex flex-col justify-between text-center border-black border-solid border-2"
-        )}
-        style={{
-          backgroundImage: `url(${imageURL})`,
-          backgroundSize: `${imageResize}%`,
-          backgroundRepeat: "no-repeat",
-          minHeight: "105px",
-          maxWidth: "70vw",
-          maxHeight: "84.4vh",
-          overflow: "hidden",
-        }}
-      >
+      {isDisabled ? (
+        <div className={"w-[100%] h-[100%]"}>
+          <div
+            className={
+              "w-100% h-[100%] flex justify-center items-center text-4xl"
+            }
+          >
+            Upload An Image To Get Started
+          </div>
+        </div>
+      ) : (
         <div
+          ref={divRef}
+          className={cn(
+            imageLayout(),
+            "text-8xl flex flex-col items-center justify-between border-black border-solid border-2"
+          )}
           style={{
-            whiteSpace: "normal",
-            maxWidth: "70vw",
-            minHeight: "105px",
-            maxHeight: "298px",
-            wordWrap: "break-word",
-            color: `${imageTopTextColor} `,
-            paddingTop: "3%",
-            textAlign: "center",
-            fontFamily: `${fontFamily}`,
-            textShadow: `-1px -1px 0 ${imageTopTextOutlineColor}, 1px -1px 0 ${imageTopTextOutlineColor}, -1px 1px 0 ${imageTopTextOutlineColor}, 1px 1px 0 #000`
+            backgroundImage: `url(${imageURL})`,
+            backgroundSize: `${imageResize}%`,
+            backgroundRepeat: "no-repeat",
           }}
         >
-          {imageTopText}
+          <ResizableDiv
+            height={200}
+            width={200}
+            content={imageTopText}
+            color={imageTopTextColor}
+            textShadowColor={imageTopTextOutlineColor}
+            fontFamily={fontFamily}
+            isPortrait={isPortrait}
+          />
+          <ResizableDiv
+            height={200}
+            width={200}
+            content={imageBottomText}
+            color={imageBottomTextColor}
+            textShadowColor={imageBottomTextOutlineColor}
+            fontFamily={fontFamily}
+            isPortrait={isPortrait}
+          />
         </div>
-        <div
-          style={{
-            whiteSpace: "normal",
-            maxWidth: "70vw",
-            maxHeight: "297px",
-            wordWrap: "break-word",
-            color: `${imageBottomTextColor} `,
-            paddingBottom: "5%",
-            textAlign: "center",
-            fontFamily: `${fontFamily}`,
-            textShadow: `-1px -1px 0 ${imageBottomTextOutlineColor}, 1px -1px 0 ${imageBottomTextOutlineColor}, -1px 1px 0 ${imageBottomTextOutlineColor}, 1px 1px 0 ${imageBottomTextOutlineColor}`
-          }}
-        >
-          {imageBottomText}
-        </div>
-      </div>
+      )}
+
       <div className="bg-teal-500 h-[10vh]">
         {uploadHidden ? (
           <ButtonComponent

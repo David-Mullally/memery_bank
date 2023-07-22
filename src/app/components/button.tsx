@@ -17,7 +17,7 @@ const ButtonComponent: FC<ButtonComponentProps> = ({
     switch (buttonType) {
       case "UPLOAD":
         return {
-          text: disabled ? "Upload A New Image To Get Started" : "",
+          text: disabled ? "Upload A New Image" : "",
           className: "bg-green-500 text-white",
         };
       case "DOWNLOAD":

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ResizableBox, ResizeCallbackData } from "react-resizable";
+import { useEditImageProperties } from "../stores/EditImageProperties";
 
 interface ResizableDivProps {
   width: number;
@@ -47,6 +48,7 @@ const ResizableDiv: React.FC<ResizableDivProps> = ({
   fontFamily,
   isPortrait,
 }) => {
+  const resizableDivVisible = useEditImageProperties().editImageProperties.resizableDivVisible;
   const [currentWidth, setCurrentWidth] = useState<number>(width);
   const [currentHeight, setCurrentHeight] = useState<number>(height);
   const handleResize = (e: React.SyntheticEvent, data: ResizeCallbackData) => {
@@ -66,7 +68,7 @@ const ResizableDiv: React.FC<ResizableDivProps> = ({
   const contentStyle: React.CSSProperties = {
     width: "100%",
     height: "100%",
-    border: "1px solid black",
+    border: resizableDivVisible ? "1px solid black" : "none",
     overflowWrap: "break-word", // Word wrap to prevent overflowing
     fontSize: `${fontSize}px`, // Responsive font size, change the "20" as needed
     overflow: "hidden", // Prevents more text from being visible beyond the container boundaries
@@ -81,7 +83,7 @@ const ResizableDiv: React.FC<ResizableDivProps> = ({
       <ResizableBox
         width={width}
         height={height}
-        handle={
+        handle={ resizableDivVisible && 
           <div>
             <CustomResizeHandle handle="n" />
             <CustomResizeHandle handle="ne" />

@@ -33,6 +33,7 @@ const UploadDownloadImageComponent: FC<
   const setFontFamily = editImageProperties.setFontFamily;
   const setImageToptext = editImageProperties.setImageTopText;
   const setImageBottomText = editImageProperties.setImageBottomText;
+  const setResizableDivVisible = editImageProperties.setResizableDivVisible;
   // React Hooks
   const [imageURL, setImageURL] = useState<string | null>(null);
   const [downloadDisabled, setDownloadDisabled] = useState<boolean>(true);
@@ -54,17 +55,20 @@ const UploadDownloadImageComponent: FC<
   };
   const divRef = useRef<HTMLDivElement>(null);
   const handleDownload = () => {
-    if (divRef.current && !downloadDisabled) {
-      html2canvas(divRef.current).then((canvas) => {
-        const imageURL = canvas.toDataURL("image/png");
-
-        // Create a temporary anchor element to trigger the download
-        const downloadLink = document.createElement("a");
-        downloadLink.href = imageURL;
-        downloadLink.download = "downloaded_image.png";
-        downloadLink.click();
-      });
-    }
+    setResizableDivVisible(false)
+    setTimeout(() => {
+      if (divRef.current && !downloadDisabled) {
+        html2canvas(divRef.current).then((canvas) => {
+          const imageURL = canvas.toDataURL("image/png");
+  
+          // Create a temporary anchor element to trigger the download
+          const downloadLink = document.createElement("a");
+          downloadLink.href = imageURL;
+          downloadLink.download = "downloaded_image.png";
+          downloadLink.click();
+        });
+      }
+    }, 2000)
   };
   const handleClearImage = () => {
     if (!downloadDisabled) {

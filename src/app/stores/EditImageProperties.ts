@@ -4,7 +4,7 @@ import { produce } from "immer";
 export const useEditImageProperties = create<iEditImagePropertiesStore>()(
   (set, get) => ({
     editImageProperties: {
-      fontFamily : "Arial",
+      fontFamily: "Arial",
       isDisabled: true,
       imageResize: 100,
       imageTopText: "",
@@ -14,8 +14,17 @@ export const useEditImageProperties = create<iEditImagePropertiesStore>()(
       isPortrait: "portrait",
       imageTopTextOutlineColor: "#000",
       imageBottomTextOutlineColor: "#000",
+      resizableDivVisible: true,
     },
     //Actions
+    setResizableDivVisible: (resizableDivVisibleValue: boolean) => {
+      set(
+        produce<iEditImagePropertiesStore>((state) => {
+          state.editImageProperties.resizableDivVisible =
+            resizableDivVisibleValue;
+        })
+      );
+    },
     setFontFamily: (fontFamilyValue: string) => {
       set(
         produce<iEditImagePropertiesStore>((state) => {
@@ -26,14 +35,16 @@ export const useEditImageProperties = create<iEditImagePropertiesStore>()(
     setImageTopTextOutlineColor: (topTextOutlineColorValue: string) => {
       set(
         produce<iEditImagePropertiesStore>((state) => {
-          state.editImageProperties.imageTopTextOutlineColor = topTextOutlineColorValue;
+          state.editImageProperties.imageTopTextOutlineColor =
+            topTextOutlineColorValue;
         })
       );
     },
     setImageBottomTextOutlineColor: (bottomTextOutlineColorValue: string) => {
       set(
         produce<iEditImagePropertiesStore>((state) => {
-          state.editImageProperties.imageBottomTextOutlineColor = bottomTextOutlineColorValue;
+          state.editImageProperties.imageBottomTextOutlineColor =
+            bottomTextOutlineColorValue;
         })
       );
     },
@@ -106,6 +117,7 @@ interface iEditImagePropertiesStore {
   setIsPortrait: (n: string) => void;
   setImageTopTextOutlineColor: (n: string) => void;
   setImageBottomTextOutlineColor: (n: string) => void;
+  setResizableDivVisible: (n: boolean) => void;
 }
 
 export enum ImageResizeMinMax {}
@@ -121,4 +133,5 @@ type EditImageProperties = {
   isPortrait: string;
   imageTopTextOutlineColor: string;
   imageBottomTextOutlineColor: string;
+  resizableDivVisible: boolean;
 };

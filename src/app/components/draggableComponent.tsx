@@ -1,6 +1,7 @@
 import React from "react";
 import Draggable, { DraggableData, DraggableEvent } from "react-draggable";
 import ResizableDiv from "./resizableDivComponent";
+import { useEditImageProperties } from "../stores/EditImageProperties";
 
 interface DraggableElementProps {
     defaultPosition: { x: number; y: number };
@@ -11,6 +12,7 @@ const DraggableElement: React.FC<DraggableElementProps> = ({
     defaultPosition,
     isTopText,
 }) => {
+  const resizableDivVisible = useEditImageProperties().editImageProperties.resizableDivVisible;
   const parentRef = React.useRef<HTMLDivElement>(null);
   const elementRef = React.useRef<HTMLDivElement>(null);
 
@@ -37,7 +39,7 @@ const DraggableElement: React.FC<DraggableElementProps> = ({
     <div
       ref={parentRef}
       style={{
-        border: "1px solid #ccc",
+        border: resizableDivVisible ? "1px solid #ccc" : "",
         padding: "10px",
         position: "relative",
         height: "400px",
@@ -52,7 +54,7 @@ const DraggableElement: React.FC<DraggableElementProps> = ({
       >
         <div
           ref={elementRef}
-          style={{ border: "1px solid #f00", padding: "10px", cursor: "move" }}
+          style={{ border: resizableDivVisible ? "1px solid #f00" : "", padding: "10px", cursor: "move" }}
               >
                   <ResizableDiv width={200} height={200} isTopText={isTopText} />
         </div>

@@ -108,7 +108,7 @@ const ResizableDiv: React.FC<ResizableDivProps> = ({ width, height, isTopText })
         }
         onResize={handleResize}
         resizeHandles={["n", "ne", "e", "se", "s", "sw", "w", "nw"]} // All eight handles enabled
-        minConstraints={[100, 200]}
+        minConstraints={[300, 100]}
         maxConstraints={isPortrait === "portrait" ? [800, 200] : [1200, 200]}
       >
         <div style={contentStyle}>{content}</div>

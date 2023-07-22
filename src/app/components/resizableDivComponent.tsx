@@ -5,11 +5,7 @@ import { useEditImageProperties } from "../stores/EditImageProperties";
 interface ResizableDivProps {
   width: number;
   height: number;
-  content: string;
-  color: string;
-  textShadowColor: string;
-  fontFamily: string;
-  isPortrait: string;
+  isTopText: boolean;
 }
 
 interface CustomResizeHandleProps {
@@ -39,30 +35,43 @@ const CustomResizeHandle: React.FC<CustomResizeHandleProps> = ({ handle }) => {
   return <div style={resizeHandles[handle]} />;
 };
 
-const ResizableDiv: React.FC<ResizableDivProps> = ({
-  width,
-  height,
-  content,
-  color,
-  textShadowColor,
-  fontFamily,
-  isPortrait,
-}) => {
-  const resizableDivVisible = useEditImageProperties().editImageProperties.resizableDivVisible;
+const ResizableDiv: React.FC<ResizableDivProps> = ({ width, height, isTopText }) => {
+  const editImageProperties = useEditImageProperties().editImageProperties;
+  const resizableDivVisible = editImageProperties.resizableDivVisible;
+    const fontFamily = editImageProperties.fontFamily;
+    const isPortrait = editImageProperties.isPortrait
+  // Image Top Text
+  const imageTopText = editImageProperties.imageTopText;
+  const imageTopTextColor = editImageProperties.imageTopTextColor;
+  const imageTopTextOutlineColor = editImageProperties.imageTopTextOutlineColor;
+  // Image Bottom Text
+  const imageBottomText = editImageProperties.imageBottomText;
+  const imageBottomTextColor = editImageProperties.imageBottomTextColor;
+  const imageBottomTextOutlineColor =
+        editImageProperties.imageBottomTextOutlineColor;
+    let content = "";
+    let imageTextColor = "";
+    let textShadowColor = "";
+    isTopText ? content = imageTopText : content = imageBottomText;
+    isTopText ? imageTextColor = imageTopTextColor : imageTextColor = imageBottomTextColor;
+    isTopText ? textShadowColor = imageTopTextOutlineColor : textShadowColor = imageBottomTextOutlineColor;
+  //For Resizing div
   const [currentWidth, setCurrentWidth] = useState<number>(width);
-  const [currentHeight, setCurrentHeight] = useState<number>(height);
+  /*const [currentHeight, setCurrentHeight] = useState<number>(height);*/
   const handleResize = (e: React.SyntheticEvent, data: ResizeCallbackData) => {
     setCurrentWidth(data.size.width);
-    setCurrentHeight(data.size.height);
-  };
+    /*setCurrentHeight(data.size.height);*/
+    };
+  
 
-  const maxFontSize = 120;
+  // For resizing font based current div size
+  const maxFontSize = 65;
   const minFontSize = 10;
   const fontSizeBasedOnWidth = (currentWidth / 500) * maxFontSize;
-  const fontSizeBasedOnHeight = (currentHeight / 500) * maxFontSize;
+  /*const fontSizeBasedOnHeight = (currentHeight / 500) * maxFontSize;*/
   const fontSize = Math.min(
     maxFontSize,
-    Math.max(minFontSize, Math.min(fontSizeBasedOnWidth, fontSizeBasedOnHeight))
+    Math.max(minFontSize, Math.min(fontSizeBasedOnWidth, /*fontSizeBasedOnHeight*/))
   );
 
   const contentStyle: React.CSSProperties = {
@@ -73,32 +82,34 @@ const ResizableDiv: React.FC<ResizableDivProps> = ({
     fontSize: `${fontSize}px`, // Responsive font size, change the "20" as needed
     overflow: "hidden", // Prevents more text from being visible beyond the container boundaries
     position: "relative", // Ensure proper positioning of custom handles within the resizable div
-    color: `${color}`,
+    color:`${imageTextColor}`,
     textShadow: `-1px -1px 0 ${textShadowColor}, 1px -1px 0 ${textShadowColor}, -1px 1px 0 ${textShadowColor}, 1px 1px 0 ${textShadowColor}`,
     fontFamily: `${fontFamily}`,
-    textAlign: "center",
+      textAlign: "center",
   };
   return (
     <div style={{ position: "relative" }}>
       <ResizableBox
         width={width}
         height={height}
-        handle={ resizableDivVisible && 
-          <div>
-            <CustomResizeHandle handle="n" />
-            <CustomResizeHandle handle="ne" />
-            <CustomResizeHandle handle="e" />
-            <CustomResizeHandle handle="se" />
-            <CustomResizeHandle handle="s" />
-            <CustomResizeHandle handle="sw" />
-            <CustomResizeHandle handle="w" />
-            <CustomResizeHandle handle="nw" />
-          </div>
+        handle={
+          resizableDivVisible && (
+            <div>
+              <CustomResizeHandle handle="n" />
+              <CustomResizeHandle handle="ne" />
+              <CustomResizeHandle handle="e" />
+              <CustomResizeHandle handle="se" />
+              <CustomResizeHandle handle="s" />
+              <CustomResizeHandle handle="sw" />
+              <CustomResizeHandle handle="w" />
+              <CustomResizeHandle handle="nw" />
+            </div>
+          )
         }
         onResize={handleResize}
         resizeHandles={["n", "ne", "e", "se", "s", "sw", "w", "nw"]} // All eight handles enabled
-        minConstraints={[100, 100]}
-        maxConstraints={isPortrait==="portrait" ? [600, 200] : [1200,200]}
+        minConstraints={[100, 200]}
+        maxConstraints={isPortrait === "portrait" ? [800, 200] : [1200, 200]}
       >
         <div style={contentStyle}>{content}</div>
       </ResizableBox>

@@ -2,8 +2,8 @@ import React, { FC, useState, useRef } from "react";
 import ButtonComponent from "./button";
 import html2canvas from "html2canvas";
 import { useEditImageProperties } from "@/app/stores/EditImageProperties";
-import ResizableDiv from "./resizableDivComponent";
 import cn from "classnames";
+import DraggableElement from "./draggableComponent";
 
 interface UploadDownloadImageComponentProps {}
 
@@ -14,20 +14,8 @@ const UploadDownloadImageComponent: FC<
   const editImageProperties = useEditImageProperties();
   // Read values
   const isDisabled = editImageProperties.editImageProperties.isDisabled;
-  const fontFamily = editImageProperties.editImageProperties.fontFamily;
   const isPortrait = editImageProperties.editImageProperties.isPortrait;
   const imageResize = editImageProperties.editImageProperties.imageResize;
-  const imageTopText = editImageProperties.editImageProperties.imageTopText;
-  const imageTopTextColor =
-    editImageProperties.editImageProperties.imageTopTextColor;
-  const imageTopTextOutlineColor =
-    editImageProperties.editImageProperties.imageTopTextOutlineColor;
-  const imageBottomText =
-    editImageProperties.editImageProperties.imageBottomText;
-  const imageBottomTextColor =
-    editImageProperties.editImageProperties.imageBottomTextColor;
-  const imageBottomTextOutlineColor =
-    editImageProperties.editImageProperties.imageBottomTextOutlineColor;
   //Set values
   const setIsEditImagePropertiesDisabled = editImageProperties.setIsDisabled;
   const setFontFamily = editImageProperties.setFontFamily;
@@ -55,12 +43,12 @@ const UploadDownloadImageComponent: FC<
   };
   const divRef = useRef<HTMLDivElement>(null);
   const handleDownload = () => {
-    setResizableDivVisible(false)
+    setResizableDivVisible(false);
     setTimeout(() => {
       if (divRef.current && !downloadDisabled) {
         html2canvas(divRef.current).then((canvas) => {
           const imageURL = canvas.toDataURL("image/png");
-  
+
           // Create a temporary anchor element to trigger the download
           const downloadLink = document.createElement("a");
           downloadLink.href = imageURL;
@@ -68,9 +56,9 @@ const UploadDownloadImageComponent: FC<
           downloadLink.click();
         });
       }
-    }, 2000)
+    }, 2000);
     setTimeout(() => {
-      setResizableDivVisible(true)
+      setResizableDivVisible(true);
     }, 4000);
   };
   const handleClearImage = () => {
@@ -118,24 +106,8 @@ const UploadDownloadImageComponent: FC<
             backgroundRepeat: "no-repeat",
           }}
         >
-          <ResizableDiv
-            height={200}
-            width={200}
-            content={imageTopText}
-            color={imageTopTextColor}
-            textShadowColor={imageTopTextOutlineColor}
-            fontFamily={fontFamily}
-            isPortrait={isPortrait}
-          />
-          <ResizableDiv
-            height={200}
-            width={200}
-            content={imageBottomText}
-            color={imageBottomTextColor}
-            textShadowColor={imageBottomTextOutlineColor}
-            fontFamily={fontFamily}
-            isPortrait={isPortrait}
-          />
+            <DraggableElement defaultPosition={{ x: 0, y: 0 }} isTopText={true} />
+            <DraggableElement defaultPosition={{ x: 0, y: 0 }} isTopText={false} />
         </div>
       )}
 

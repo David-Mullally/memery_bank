@@ -35,10 +35,10 @@ const MemePanelComponent: FC<MemePanelComponentProps> = ({ memePanelNum }) => {
   // Functions
 
   return (
-    <div className="w-[600px] h-[300px] bg-green-500 border-black border-black border-2 overflow-hidden">
+    <div className="w-[600px] h-[30vh] bg-green-500 border-black border-black border-2 overflow-hidden">
       {imageURL ? (
         <div
-          className="w-[600px] h-[300px]"
+          className="w-[600px] h-[30vh]"
           style={{
             backgroundImage: `url(${imageURLs[memePanelNum - 1]})`,
             backgroundSize: `${imageResizeVals[memePanelNum - 1]}%`,
@@ -54,7 +54,7 @@ const MemePanelComponent: FC<MemePanelComponentProps> = ({ memePanelNum }) => {
           />
         </div>
       ) : (
-        <div className="w-[600px] h-[300px] border-black border-black border-2"></div>
+        <div className="w-[600px] h-[30vh] border-black border-black border-2"></div>
       )}
     </div>
   );

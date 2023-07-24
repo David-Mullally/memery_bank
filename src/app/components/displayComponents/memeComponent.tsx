@@ -88,7 +88,7 @@ const MemeComponent: FC<MemeComponentProps> = () => {
           return (
             <div
               key={i}
-              className={`h-[300px] ${resizableDivVisible ? "border-black border-solid" : ""}`}
+              className={`h-[30vh] ${resizableDivVisible ? "border-black border-solid" : ""}`}
             >
               <MemeButtonsComponent
                 downloadDisabled={false}

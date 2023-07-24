@@ -67,7 +67,7 @@ const MemeButtonsComponent: FC<MemeButtonsComponentProps> = ({
     setUploadHidden(false);
   };
   return (
-    <div className="bg-teal-500 h-[30%]">
+    <div className="bg-teal-500 h-[10%]">
       {uploadHidden ? (
         <ButtonComponent
           buttonType="UPLOAD"

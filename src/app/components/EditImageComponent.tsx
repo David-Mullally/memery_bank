@@ -15,7 +15,8 @@ const EditImageComponent: FC<EditImageComponentProps> = ({ memePanelNum }) => {
   const memeLayoutProperties = memeLayout.memeLayoutProperties;
   //read values
   const textColor = editImageProperties.editImageProperties.textColor;
-  const textOutlineColor = editImageProperties.editImageProperties.textOutlineColor;
+  const textOutlineColor =
+    editImageProperties.editImageProperties.textOutlineColor;
   const isDisabled = editImageProperties.editImageProperties.isDisabled;
   const imageResize1 = memeLayoutProperties.firstPanelResize;
   const imageResize2 = memeLayoutProperties.secondPanelResize;
@@ -79,7 +80,7 @@ const EditImageComponent: FC<EditImageComponentProps> = ({ memePanelNum }) => {
       }
     }
     if (!isTopText) {
-      if(memePanelNum === 1) {
+      if (memePanelNum === 1) {
         setImageBottomText(imageText);
       } else if (memePanelNum === 2) {
         setImage2BottomText(imageText);
@@ -87,7 +88,6 @@ const EditImageComponent: FC<EditImageComponentProps> = ({ memePanelNum }) => {
         setImage3BottomText(imageText);
       }
     }
-     
   };
   const handleImageTextColor = (e: React.ChangeEvent<HTMLInputElement>) => {
     const imageTextColor = e.currentTarget.value;
@@ -102,7 +102,7 @@ const EditImageComponent: FC<EditImageComponentProps> = ({ memePanelNum }) => {
   };
 
   return (
-    <div className="flex flex-col bg-gray-500 h-[90%] justify-center content-center">
+    <div className="flex flex-col bg-gray-500 h-[90%] justify-center" style={{paddingTop: "20px"}}>
       <div className="flex justify-center">
         Resize Image (%)
         <input
@@ -139,27 +139,29 @@ const EditImageComponent: FC<EditImageComponentProps> = ({ memePanelNum }) => {
         />
       </div>
       <div className="flex">
-        Text Color
-      <input
-        type="color"
-        name="textColor"
-          id="textkColor"
-          value={textColor}
-        onChange={(e) => handleImageTextColor(e)}
-        disabled={isDisabled}
-        />
-      </div>
-      <div className="flex">
-        Text Outline Color
-      <input
-        type="color"
-        name="topTextOutlineColor"
-          id="topTextOutlineColor"
-          value={textOutlineColor}
-        onChange={(e) => handleImageTextOutlineColor(e)}
-        disabled={isDisabled}
-        />
+        <div className="flex">
+          Text Color
+          <input
+            type="color"
+            name="textColor"
+            id="textkColor"
+            value={textColor}
+            onChange={(e) => handleImageTextColor(e)}
+            disabled={isDisabled}
+          />
         </div>
+        <div className="flex">
+          Text Outline Color
+          <input
+            type="color"
+            name="topTextOutlineColor"
+            id="topTextOutlineColor"
+            value={textOutlineColor}
+            onChange={(e) => handleImageTextOutlineColor(e)}
+            disabled={isDisabled}
+          />
+        </div>
+      </div>
     </div>
   );
 };

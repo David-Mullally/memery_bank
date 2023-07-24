@@ -102,7 +102,7 @@ const EditImageComponent: FC<EditImageComponentProps> = ({ memePanelNum }) => {
   };
 
   return (
-    <div className="flex flex-col bg-gray-500 h-[90%] justify-center" style={{paddingTop: "20px"}}>
+    <div className="flex flex-col bg-gray-500 h-[100%] justify-center" style={{paddingTop: "5px"}}>
       <div className="flex justify-center">
         Resize Image (%)
         <input

@@ -36,7 +36,7 @@ const ButtonComponent: FC<ButtonComponentProps> = ({
     <button
       className={cn(
         buttonStyle().className,
-        "px-2 py-1 rounded-sm border-[1px] border-teal-700 transition-all h-[30px] w-[100%]"
+        "px-2 py-1 rounded-sm border-[1px] border-teal-700 transition-all h-[50%] w-[100%]"
       )}
       onClick={onClick}
     >

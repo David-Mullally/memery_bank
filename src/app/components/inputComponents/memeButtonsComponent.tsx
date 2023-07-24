@@ -67,7 +67,7 @@ const MemeButtonsComponent: FC<MemeButtonsComponentProps> = ({
     setUploadHidden(false);
   };
   return (
-    <div className="bg-teal-500 h-[10%]">
+    <div className="bg-teal-500 h-[7%]">
       {uploadHidden ? (
         <ButtonComponent
           buttonType="UPLOAD"
@@ -75,7 +75,9 @@ const MemeButtonsComponent: FC<MemeButtonsComponentProps> = ({
           disabled={uploadHidden}
         />
       ) : (
-          <input className="h-[50px]" type="file" accept="image/*" onChange={handleImageChange} />
+          <div className="h-[50%]">
+            <input type="file" accept="image/*" onChange={handleImageChange} />
+            </div>
       )}
       <ButtonComponent
         buttonType="CLEAR"

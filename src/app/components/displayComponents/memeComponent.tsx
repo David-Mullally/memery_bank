@@ -83,19 +83,21 @@ const MemeComponent: FC<MemeComponentProps> = () => {
           disabled={false}
         />
       </div>
-      <div className="flex flex-col">
+        <div className="flex flex-col h-[90vh] bg-red-500">
         {editArray.map((panel, i) => {
           return (
+            <>
+            <MemeButtonsComponent
+            downloadDisabled={false}
+            memePanelNum={i + 1}
+          />
             <div
               key={i}
               className={`h-[30vh] ${resizableDivVisible ? "border-black border-solid" : ""}`}
             >
-              <MemeButtonsComponent
-                downloadDisabled={false}
-                memePanelNum={i + 1}
-              />
               {panel}
-            </div>
+              </div>
+              </>
           );
         })}
       </div>

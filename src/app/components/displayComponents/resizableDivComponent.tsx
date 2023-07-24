@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { ResizableBox, ResizeCallbackData } from "react-resizable";
-import { useEditImageProperties } from "../stores/EditImageProperties";
+import { useEditImageProperties } from "../../stores/EditImageProperties";
 
 interface ResizableDivProps {
   width: number;
   height: number;
   isTopText: boolean;
+  memePanelNum: number;
 }
 
 interface CustomResizeHandleProps {
@@ -35,43 +36,63 @@ const CustomResizeHandle: React.FC<CustomResizeHandleProps> = ({ handle }) => {
   return <div style={resizeHandles[handle]} />;
 };
 
-const ResizableDiv: React.FC<ResizableDivProps> = ({ width, height, isTopText }) => {
+const ResizableDiv: React.FC<ResizableDivProps> = ({
+  width,
+  height,
+  isTopText,
+  memePanelNum,
+}) => {
   const editImageProperties = useEditImageProperties().editImageProperties;
   const resizableDivVisible = editImageProperties.resizableDivVisible;
-    const fontFamily = editImageProperties.fontFamily;
-    const isPortrait = editImageProperties.isPortrait
+  const fontFamily = editImageProperties.fontFamily;
   // Image Top Text
   const imageTopText = editImageProperties.imageTopText;
-  const imageTopTextColor = editImageProperties.imageTopTextColor;
-  const imageTopTextOutlineColor = editImageProperties.imageTopTextOutlineColor;
-  // Image Bottom Text
+  const image2TopText = editImageProperties.image2TopText;
+  const image3TopText = editImageProperties.image3TopText;
   const imageBottomText = editImageProperties.imageBottomText;
-  const imageBottomTextColor = editImageProperties.imageBottomTextColor;
-  const imageBottomTextOutlineColor =
-        editImageProperties.imageBottomTextOutlineColor;
-    let content = "";
-    let imageTextColor = "";
-    let textShadowColor = "";
-    isTopText ? content = imageTopText : content = imageBottomText;
-    isTopText ? imageTextColor = imageTopTextColor : imageTextColor = imageBottomTextColor;
-    isTopText ? textShadowColor = imageTopTextOutlineColor : textShadowColor = imageBottomTextOutlineColor;
+  const image2BottomText = editImageProperties.image2BottomText;
+  const image3BottomText = editImageProperties.image3BottomText;
+  const textColor = editImageProperties.textColor;
+  const textOutlineColor = editImageProperties.textOutlineColor;
+  let content = "";
+  if (isTopText) {
+    if (memePanelNum === 1) {
+      content = imageTopText;
+    } else if (memePanelNum === 2) {
+      content = image2TopText;
+    } else if (memePanelNum === 3) {
+      content = image3TopText;
+    }
+  }
+  if (!isTopText) {
+    if (memePanelNum === 1) {
+      content = imageBottomText;
+    } else if (memePanelNum === 2) {
+      content = image2BottomText;
+    } else if (memePanelNum === 3) {
+      content = image3BottomText;
+    }
+  }
+
   //For Resizing div
   const [currentWidth, setCurrentWidth] = useState<number>(width);
   /*const [currentHeight, setCurrentHeight] = useState<number>(height);*/
   const handleResize = (e: React.SyntheticEvent, data: ResizeCallbackData) => {
     setCurrentWidth(data.size.width);
     /*setCurrentHeight(data.size.height);*/
-    };
-  
+  };
 
   // For resizing font based current div size
-  const maxFontSize = 65;
-  const minFontSize = 10;
-  const fontSizeBasedOnWidth = (currentWidth / 500) * maxFontSize;
+  const maxFontSize = 60;
+  const minFontSize = 5;
+  const fontSizeBasedOnWidth = (currentWidth / 1000) * maxFontSize;
   /*const fontSizeBasedOnHeight = (currentHeight / 500) * maxFontSize;*/
   const fontSize = Math.min(
     maxFontSize,
-    Math.max(minFontSize, Math.min(fontSizeBasedOnWidth, /*fontSizeBasedOnHeight*/))
+    Math.max(
+      minFontSize,
+      Math.min(fontSizeBasedOnWidth /*fontSizeBasedOnHeight*/)
+    )
   );
 
   const contentStyle: React.CSSProperties = {
@@ -82,11 +103,12 @@ const ResizableDiv: React.FC<ResizableDivProps> = ({ width, height, isTopText })
     fontSize: `${fontSize}px`, // Responsive font size, change the "20" as needed
     overflow: "hidden", // Prevents more text from being visible beyond the container boundaries
     position: "relative", // Ensure proper positioning of custom handles within the resizable div
-    color:`${imageTextColor}`,
-    textShadow: `-1px -1px 0 ${textShadowColor}, 1px -1px 0 ${textShadowColor}, -1px 1px 0 ${textShadowColor}, 1px 1px 0 ${textShadowColor}`,
+    color: `${textColor}`,
+    textShadow: `-1px -1px 0 ${textOutlineColor}, 1px -1px 0 ${textOutlineColor}, -1px 1px 0 ${textOutlineColor}, 1px 1px 0 ${textOutlineColor}`,
     fontFamily: `${fontFamily}`,
-      textAlign: "center",
-      maxWidth: "100%",
+    textAlign: "center",
+    maxWidth: "80%",
+    marginBottom: "50px",
   };
   return (
     <div style={{ position: "relative" }}>
@@ -95,7 +117,7 @@ const ResizableDiv: React.FC<ResizableDivProps> = ({ width, height, isTopText })
         height={height}
         handle={
           resizableDivVisible && (
-            <div style={{maxWidth: "100%"}}>
+            <div style={{ maxWidth: "100%" }}>
               <CustomResizeHandle handle="n" />
               <CustomResizeHandle handle="ne" />
               <CustomResizeHandle handle="e" />
@@ -109,8 +131,8 @@ const ResizableDiv: React.FC<ResizableDivProps> = ({ width, height, isTopText })
         }
         onResize={handleResize}
         resizeHandles={["n", "ne", "e", "se", "s", "sw", "w", "nw"]} // All eight handles enabled
-        minConstraints={[300, 100]}
-        maxConstraints={isPortrait === "portrait" ? [600, 200] : [1200, 200]}
+        minConstraints={[100, 10]}
+        maxConstraints={[600, 150]}
       >
         <div style={contentStyle}>{content}</div>
       </ResizableBox>

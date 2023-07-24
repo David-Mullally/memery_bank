@@ -44,7 +44,7 @@ const FontFamilyComponent: FC<FontFamilyComponentProps> = () => {
     setStoreFontFamily(e.currentTarget.value);
   };
   return (
-    <>
+    <div className="flex justify-center">
       <br />
       <h1>Font Family:</h1>
       <select style={{ fontFamily: `${fontFamily}` }}value={storeFontFamily} disabled={isDisabled} onChange={(e) => handleFontFamilyChange(e)}>
@@ -54,7 +54,7 @@ const FontFamilyComponent: FC<FontFamilyComponentProps> = () => {
           </option>
         })}
       </select>
-    </>
+    </div>
   );
 };
 export default FontFamilyComponent;

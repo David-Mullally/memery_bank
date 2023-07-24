@@ -1,140 +1,143 @@
-import React, { FC, useState, useRef } from "react";
-import ButtonComponent from "./button";
-import html2canvas from "html2canvas";
-import { useEditImageProperties } from "@/app/stores/EditImageProperties";
-import cn from "classnames";
-import DraggableElement from "./draggableComponent";
+{/*
+  import React, { FC, useState, useRef } from "react";
+  import ButtonComponent from "./inputComponents/button";
+  import html2canvas from "html2canvas";
+  import { useEditImageProperties } from "@/app/stores/EditImageProperties";
+  import cn from "classnames";
 
-interface UploadDownloadImageComponentProps {}
+  interface UploadDownloadImageComponentProps { }
 
-const UploadDownloadImageComponent: FC<
-  UploadDownloadImageComponentProps
-> = () => {
-  //Taken from store
-  const editImageProperties = useEditImageProperties();
-  // Read values
-  const isDisabled = editImageProperties.editImageProperties.isDisabled;
-  const isPortrait = editImageProperties.editImageProperties.isPortrait;
-  const imageResize = editImageProperties.editImageProperties.imageResize;
-  //Set values
-  const setIsEditImagePropertiesDisabled = editImageProperties.setIsDisabled;
-  const setFontFamily = editImageProperties.setFontFamily;
-  const setImageToptext = editImageProperties.setImageTopText;
-  const setImageBottomText = editImageProperties.setImageBottomText;
-  const setResizableDivVisible = editImageProperties.setResizableDivVisible;
-  // React Hooks
-  const [imageURL, setImageURL] = useState<string | null>(null);
-  const [downloadDisabled, setDownloadDisabled] = useState<boolean>(true);
-  const [uploadHidden, setUploadHidden] = useState<boolean>(true);
-  //Other variables
-  // Functions
-  const handleUpload = () => {
-    setUploadHidden(false);
-  };
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const imageURL = URL.createObjectURL(file);
-      setImageURL(imageURL);
-      setDownloadDisabled(false);
-      setUploadHidden(true);
-      setIsEditImagePropertiesDisabled(false);
-    }
-  };
-  const divRef = useRef<HTMLDivElement>(null);
-  const handleDownload = () => {
-    setResizableDivVisible(false);
-    setTimeout(() => {
-      if (divRef.current && !downloadDisabled) {
-        html2canvas(divRef.current).then((canvas) => {
-          const imageURL = canvas.toDataURL("image/png");
+  const UploadDownloadImageComponent: FC<
+    UploadDownloadImageComponentProps
+  > = () => {
+    //Taken from store
+    const editImageProperties = useEditImageProperties();
+    // Read values
+    const isDisabled = editImageProperties.editImageProperties.isDisabled;
+    const isPortrait = editImageProperties.editImageProperties.isPortrait;
+    //Set values
+    const setIsEditImagePropertiesDisabled = editImageProperties.setIsDisabled;
+    const setFontFamily = editImageProperties.setFontFamily;
+    const setImageToptext = editImageProperties.setImageTopText;
+    const setImageBottomText = editImageProperties.setImageBottomText;
+    const setResizableDivVisible = editImageProperties.setResizableDivVisible;
+    // React Hooks
+    const [imageURL, setImageURL] = useState<string | null>(null);
+    const [image2URL, setImage2URL] = useState<string | null>(null);
 
-          // Create a temporary anchor element to trigger the download
-          const downloadLink = document.createElement("a");
-          downloadLink.href = imageURL;
-          downloadLink.download = "downloaded_image.png";
-          downloadLink.click();
-        });
+    const [downloadDisabled, setDownloadDisabled] = useState<boolean>(true);
+    const [uploadHidden, setUploadHidden] = useState<boolean>(true);
+    //Other variables
+    // Functions
+    const handleUpload = () => {
+      setUploadHidden(false);
+    };
+    const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const file = event.target.files?.[0];
+      if (file) {
+        const imageURL = URL.createObjectURL(file);
+        setImageURL(imageURL);
+        setDownloadDisabled(false);
+        setUploadHidden(true);
+        setIsEditImagePropertiesDisabled(false);
       }
-    }, 2000);
-    setTimeout(() => {
-      setResizableDivVisible(true);
-    }, 4000);
-  };
-  const handleClearImage = () => {
-    if (!downloadDisabled) {
-      setImageURL(null);
-      setDownloadDisabled(true);
-      setImageToptext("");
-      setImageBottomText("");
-      setIsEditImagePropertiesDisabled(true);
-      setFontFamily("Arial");
-    }
-  };
+    };
+    const handleImage2Change = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const file = event.target.files?.[0];
+      if (file) {
+        const imageURL = URL.createObjectURL(file);
+        setImageURL(imageURL);
+        setDownloadDisabled(false);
+        setUploadHidden(true);
+        setIsEditImagePropertiesDisabled(false);
+      }
+    };
+    const divRef = useRef<HTMLDivElement>(null);
+    const divRef2 = useRef<HTMLDivElement>(null);
 
-  const imageLayout = () => {
-    switch (isPortrait) {
-      case "portrait":
-        return "w-[40vw] h-[70vh]";
-      case "landscape":
-        return "w-[70vw] h-[75vh]";
-    }
-  };
+    const handleDownload = () => {
+      setResizableDivVisible(false);
+      setTimeout(() => {
+        if (divRef.current && !downloadDisabled) {
+          html2canvas(divRef.current).then((canvas) => {
+            const imageURL = canvas.toDataURL("image/png");
 
-  return (
-    <div className={cn(imageLayout(), "bg-white")}>
-      {isDisabled ? (
-        <div className={"w-[100%] h-[100%]"}>
-          <div
-            className={
-              "w-100% h-[100%] flex justify-center items-center text-4xl"
-            }
-          >
-            Upload An Image To Get Started
+            // Create a temporary anchor element to trigger the download
+            const downloadLink = document.createElement("a");
+            downloadLink.href = imageURL;
+            downloadLink.download = "downloaded_image.png";
+            downloadLink.click();
+          });
+        }
+      }, 2000);
+      setTimeout(() => {
+        setResizableDivVisible(true);
+      }, 4000);
+    };
+    const handleClearImage = () => {
+      if (!downloadDisabled) {
+        setImageURL(null);
+        setDownloadDisabled(true);
+        setImageToptext("");
+        setImageBottomText("");
+        setIsEditImagePropertiesDisabled(true);
+        setFontFamily("Arial");
+      }
+    };
+
+    const imageLayout = () => {
+      switch (isPortrait) {
+        case "portrait":
+          return "w-[40vw] h-[70vh]";
+        case "landscape":
+          return "w-[70vw] h-[75vh]";
+      }
+    };
+
+    return (
+      <div className={cn(imageLayout(), "bg-white")}>
+        {isDisabled ? (
+          <div className={"w-[100%] h-[100%]"}>
+            <div
+              className={
+                "w-100% h-[100%] flex justify-center items-center text-4xl"
+              }
+            >
+              Upload An Image To Get Started
+            </div>
           </div>
-        </div>
-      ) : (
-        <div
-          ref={divRef}
-          className={cn(
-            imageLayout(),
-            "text-8xl flex flex-col items-center justify-between border-black border-solid border-2"
-          )}
-          style={{
-            backgroundImage: `url(${imageURL})`,
-            backgroundSize: `${imageResize}%`,
-            backgroundRepeat: "no-repeat",
-          }}
-        >
-            <DraggableElement defaultPosition={{ x: 0, y: 0 }} isTopText={true} />
-            <DraggableElement defaultPosition={{ x: 0, y: 0 }} isTopText={false} />
-        </div>
-      )}
-
-      <div className="bg-teal-500 h-[10vh]">
-        {uploadHidden ? (
-          <ButtonComponent
-            buttonType="UPLOAD"
-            onClick={handleUpload}
-            disabled={uploadHidden}
-          />
         ) : (
-          <input type="file" accept="image/*" onChange={handleImageChange} />
+          <>
+            <div
+              ref={divRef}
+              className={cn(
+                imageLayout(),
+                "text-8xl flex flex-col items-center justify-between border-black border-solid border-2"
+              )}
+              style={{
+                backgroundImage: `url(${imageURL})`,
+                backgroundSize: `${imageResize}%`,
+                backgroundRepeat: "no-repeat",
+                height: "50%",
+              }}
+            ></div>
+            <div
+              ref={divRef2}
+              className={cn(
+                imageLayout(),
+                "text-8xl flex flex-col items-center justify-between border-black border-solid border-2"
+              )}
+              style={{
+                backgroundImage: `url(${image2URL})`,
+                backgroundSize: `${imageResize}%`,
+                backgroundRepeat: "no-repeat",
+                height: "50%",
+              }}
+            ></div>
+          </>
         )}
-        <br />
-        <ButtonComponent
-          buttonType="DOWNLOAD"
-          disabled={downloadDisabled}
-          onClick={handleDownload}
-        />
-        <ButtonComponent
-          buttonType="CLEAR"
-          disabled={downloadDisabled}
-          onClick={handleClearImage}
-        />
       </div>
-    </div>
-  );
-};
-
-export default UploadDownloadImageComponent;
+    );
+  };
+  export default UploadDownloadImageComponent;
+*/}

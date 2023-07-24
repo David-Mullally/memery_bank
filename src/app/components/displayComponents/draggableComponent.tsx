@@ -1,18 +1,21 @@
 import React from "react";
 import Draggable, { DraggableData, DraggableEvent } from "react-draggable";
 import ResizableDiv from "./resizableDivComponent";
-import { useEditImageProperties } from "../stores/EditImageProperties";
+import { useEditImageProperties } from "../../stores/EditImageProperties";
 
 interface DraggableElementProps {
-    defaultPosition: { x: number; y: number };
-    isTopText: boolean;
+  defaultPosition: { x: number; y: number };
+  isTopText: boolean;
+  memePanelNum: number;
 }
 
 const DraggableElement: React.FC<DraggableElementProps> = ({
-    defaultPosition,
-    isTopText,
+  defaultPosition,
+  isTopText,
+  memePanelNum,
 }) => {
-  const resizableDivVisible = useEditImageProperties().editImageProperties.resizableDivVisible;
+  const resizableDivVisible =
+    useEditImageProperties().editImageProperties.resizableDivVisible;
   const parentRef = React.useRef<HTMLDivElement>(null);
   const elementRef = React.useRef<HTMLDivElement>(null);
 
@@ -42,8 +45,8 @@ const DraggableElement: React.FC<DraggableElementProps> = ({
         border: resizableDivVisible ? "1px solid #ccc" : "",
         padding: "10px",
         position: "relative",
-          height: "400px",
-        maxWidth: "100%"
+        height: "150px",
+        maxWidth: "100%",
       }}
     >
       {/* Draggable Element */}
@@ -55,9 +58,14 @@ const DraggableElement: React.FC<DraggableElementProps> = ({
       >
         <div
           ref={elementRef}
-          style={{ border: resizableDivVisible ? "1px solid #f00" : "", padding: "10px", cursor: "move", maxWidth: "100%" }}
-              >
-                  <ResizableDiv width={200} height={200} isTopText={isTopText} />
+          style={{
+            border: resizableDivVisible ? "1px solid #f00" : "",
+            padding: "0px",
+            cursor: "move",
+            maxWidth: "85%",
+          }}
+        >
+          <ResizableDiv width={100} height={50} isTopText={isTopText} memePanelNum={memePanelNum} />
         </div>
       </Draggable>
     </div>

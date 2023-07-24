@@ -1,38 +1,67 @@
-import React, { FC, useState } from "react";
+import { FC } from "react";
 import { useEditImageProperties } from "@/app/stores/EditImageProperties";
-import FontFamilyComponent from "./fontFamilyComponent";
+import FontFamilyComponent from "./displayComponents/fontFamilyComponent";
+import { useMemeLayout } from "../stores/memeLayout";
 
-interface EditImageComponentProps {}
+interface EditImageComponentProps {
+  memePanelNum: number;
+}
 
-const EditImageComponent: FC<EditImageComponentProps> = () => {
+const EditImageComponent: FC<EditImageComponentProps> = ({ memePanelNum }) => {
   console.log("EditImageComponent Rendering");
   // Taken from store
   const editImageProperties = useEditImageProperties();
+  const memeLayout = useMemeLayout();
+  const memeLayoutProperties = memeLayout.memeLayoutProperties;
   //read values
+  const textColor = editImageProperties.editImageProperties.textColor;
+  const textOutlineColor = editImageProperties.editImageProperties.textOutlineColor;
   const isDisabled = editImageProperties.editImageProperties.isDisabled;
-  const imageResize = editImageProperties.editImageProperties.imageResize;
+  const imageResize1 = memeLayoutProperties.firstPanelResize;
+  const imageResize2 = memeLayoutProperties.secondPanelResize;
+  const imageResize3 = memeLayoutProperties.thirdPanelResize;
+  const imageTopText = editImageProperties.editImageProperties.imageTopText;
+  const image2TopText = editImageProperties.editImageProperties.image2TopText;
+  const image3TopText = editImageProperties.editImageProperties.image3TopText;
+  const imageBottomText =
+    editImageProperties.editImageProperties.imageBottomText;
+  const image2BottomText =
+    editImageProperties.editImageProperties.image2BottomText;
+  const image3BottomText =
+    editImageProperties.editImageProperties.image3BottomText;
   //set values
-  const setImageBottomText = editImageProperties.setImageBottomText;
-  const setImageBottomTextColor = editImageProperties.setImageBottomTextColor;
-  const setImageBottomTextOutlineColor =
-    editImageProperties.setImageBottomTextOutlineColor;
-  const setImageTopTextOutlineColor =
-    editImageProperties.setImageTopTextOutlineColor;
-  const setImageResize = editImageProperties.setImageResize;
-  const setImageTopTextColor = editImageProperties.setImageTopTextColor;
+  const setTextColor = editImageProperties.setTextColor;
+  const setTextOutlineColor = editImageProperties.setTextOutlineColor;
   const setImageTopText = editImageProperties.setImageTopText;
-  const setIsPortrait = editImageProperties.setIsPortrait;
+  const setImage2TopText = editImageProperties.setImage2TopText;
+  const setImage3TopText = editImageProperties.setImage3TopText;
+  const setImageBottomText = editImageProperties.setImageBottomText;
+  const setImage2BottomText = editImageProperties.setImage2BottomText;
+  const setImage3BottomText = editImageProperties.setImage3BottomText;
+  const setFirstPanelResize = memeLayout.setFirstPanelResize;
+  const setSecondPanelResize = memeLayout.setSecondPanelResize;
+  const setThirdPanelResize = memeLayout.setThirdPanelResize;
   //React hooks
   //useState
-  const [selectedOption, setSelectedOption] = useState<string>("portrait");
   //other variables
-  const imageLayoutOptions = ["portrait", "landscape"];
+  const topTexts = [imageTopText, image2TopText, image3TopText];
+  const bottomTexts = [imageBottomText, image2BottomText, image3BottomText];
+  const imageResizeVals = [imageResize1, imageResize2, imageResize3];
   // functions
   const handleImageResizeChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const imageResize = Number(event.currentTarget.value);
-    setImageResize(imageResize);
+    if (memePanelNum === 1) {
+      setFirstPanelResize(imageResize);
+      console.log(event.currentTarget.value);
+    } else if (memePanelNum === 2) {
+      setSecondPanelResize(imageResize);
+      console.log(event.currentTarget.value);
+    } else if ((memePanelNum = 3)) {
+      setThirdPanelResize(imageResize);
+      console.log(event.currentTarget.value);
+    }
   };
 
   const handleImageTextChange = (
@@ -41,119 +70,96 @@ const EditImageComponent: FC<EditImageComponentProps> = () => {
   ) => {
     const imageText = e.currentTarget.value;
     if (isTopText) {
-      setImageTopText(imageText);
-    } else {
-      setImageBottomText(imageText);
+      if (memePanelNum === 1) {
+        setImageTopText(imageText);
+      } else if (memePanelNum === 2) {
+        setImage2TopText(imageText);
+      } else if (memePanelNum === 3) {
+        setImage3TopText(imageText);
+      }
     }
+    if (!isTopText) {
+      if(memePanelNum === 1) {
+        setImageBottomText(imageText);
+      } else if (memePanelNum === 2) {
+        setImage2BottomText(imageText);
+      } else if (memePanelNum === 3) {
+        setImage3BottomText(imageText);
+      }
+    }
+     
   };
-  const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedOption = e.currentTarget.value;
-    setSelectedOption(selectedOption);
-    setIsPortrait(selectedOption);
+  const handleImageTextColor = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const imageTextColor = e.currentTarget.value;
+    setTextColor(imageTextColor);
   };
 
-  const handleImageTextColor = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    isTopText: boolean,
-    isTextOutlineColor: boolean
+  const handleImageTextOutlineColor = (
+    e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const imageTextColor = e.currentTarget.value;
-    if (isTopText) {
-      if (isTextOutlineColor) {
-        setImageTopTextOutlineColor(imageTextColor);
-      } else {
-        setImageTopTextColor(imageTextColor);
-      }
-    } else {
-      if (isTextOutlineColor) {
-        setImageBottomTextOutlineColor(imageTextColor);
-      } else {
-        setImageBottomTextColor(imageTextColor);
-      }
-    }
+    setTextOutlineColor(imageTextColor);
   };
 
   return (
-    <div className="flex flex-col w-[30vw]" style={{ padding: "5%" }}>
-      <fieldset disabled={isDisabled}>
-        {imageLayoutOptions.map((option, i) => {
-          return (
-            <div className="flex" key={i}>
-              <div>
-                <input
-                  type="radio"
-                  name="isPortrait"
-                  value={option}
-                  checked={selectedOption === option}
-                  onChange={handleOptionChange}
-                />
-              </div>
-              <label>{option}</label>
-            </div>
-          );
-        })}
-      </fieldset>
-      Resize Image (%)
-      <input
-        type="Number"
-        name="imageResize"
-        id="imageResize"
-        value={imageResize}
-        onChange={handleImageResizeChange}
-        disabled={isDisabled}
-      />
-      {/* 
-      -Prevent further input after the div is full
-      - Chaneg it so that each new line starts in the middle and expands as new text is added
-      */}
+    <div className="flex flex-col bg-gray-500 h-[70%] justify-center">
+      <div className="flex justify-center">
+        Resize Image (%)
+        <input
+          type="Number"
+          name="imageResize"
+          id="imageResize"
+          value={imageResizeVals[memePanelNum - 1]}
+          onChange={handleImageResizeChange}
+          disabled={isDisabled}
+        />
+      </div>
       <FontFamilyComponent />
       <br />
-      Image Top Text
-      <input
-        type="text"
-        name="imageTopText"
-        id="imageTopText"
-        value={editImageProperties.editImageProperties.imageTopText}
-        onChange={(e) => handleImageTextChange(e, true)}
-        disabled={isDisabled}
-      />
+      <div className="flex justify-center">
+        Image Top Text
+        <input
+          type="text"
+          name="imageTopText"
+          id="imageTopText"
+          value={topTexts[memePanelNum - 1]}
+          onChange={(e) => handleImageTextChange(e, true)}
+          disabled={isDisabled}
+        />
+      </div>
+      <div className="flex justify-center">
+        Image Bottom Text
+        <input
+          type="text"
+          name="imageBottomText"
+          id="imageBottomText"
+          value={bottomTexts[memePanelNum - 1]}
+          onChange={(e) => handleImageTextChange(e, false)}
+          disabled={isDisabled}
+        />
+      </div>
+      <div className="flex">
+        Text Color
       <input
         type="color"
-        name="topTextColor"
-        id="topTextColor"
-        onChange={(e) => handleImageTextColor(e, true, false)}
+        name="textColor"
+          id="textkColor"
+          value={textColor}
+        onChange={(e) => handleImageTextColor(e)}
         disabled={isDisabled}
-      />
+        />
+      </div>
+      <div className="flex">
+        Text Outline Color
       <input
         type="color"
         name="topTextOutlineColor"
-        id="topTextOutlineColor"
-        onChange={(e) => handleImageTextColor(e, true, true)}
+          id="topTextOutlineColor"
+          value={textOutlineColor}
+        onChange={(e) => handleImageTextOutlineColor(e)}
         disabled={isDisabled}
-      />
-      Image Bottom Text
-      <input
-        type="text"
-        name="imageBottomText"
-        id="imageBottomText"
-        value={editImageProperties.editImageProperties.imageBottomText}
-        onChange={(e) => handleImageTextChange(e, false)}
-        disabled={isDisabled}
-      />
-      <input
-        type="color"
-        name="bottomTextColor"
-        id="bottomTextColor"
-        onChange={(e) => handleImageTextColor(e, false, false)}
-        disabled={isDisabled}
-      />
-      <input
-        type="color"
-        name="bottomTextOutlineColor"
-        id="bottomTextOutlineColor"
-        onChange={(e) => handleImageTextColor(e, false, true)}
-        disabled={isDisabled}
-      />
+        />
+        </div>
     </div>
   );
 };

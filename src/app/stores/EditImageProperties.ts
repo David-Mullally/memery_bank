@@ -5,18 +5,27 @@ export const useEditImageProperties = create<iEditImagePropertiesStore>()(
   (set, get) => ({
     editImageProperties: {
       fontFamily: "Arial",
-      isDisabled: true,
-      imageResize: 100,
+      isDisabled: false,
+      uploadHidden: true,
       imageTopText: "",
-      imageTopTextColor: "#000",
+      image2TopText: "",
+      image3TopText: "",
+      textColor: "#000",
       imageBottomText: "",
-      imageBottomTextColor: "#000",
-      isPortrait: "portrait",
-      imageTopTextOutlineColor: "#000",
-      imageBottomTextOutlineColor: "#000",
+      image2BottomText: "",
+      image3BottomText: "",
+      textOutlineColor: "#000",
       resizableDivVisible: true,
     },
     //Actions
+    setUploadHidden: (uploadHiddenValue: boolean) => {
+      set(
+        produce<iEditImagePropertiesStore>((state) => {
+          state.editImageProperties.uploadHidden =
+            uploadHiddenValue;
+        })
+      );
+    },
     setResizableDivVisible: (resizableDivVisibleValue: boolean) => {
       set(
         produce<iEditImagePropertiesStore>((state) => {
@@ -32,19 +41,11 @@ export const useEditImageProperties = create<iEditImagePropertiesStore>()(
         })
       );
     },
-    setImageTopTextOutlineColor: (topTextOutlineColorValue: string) => {
+    setTextOutlineColor: (textOutlineColorValue: string) => {
       set(
         produce<iEditImagePropertiesStore>((state) => {
-          state.editImageProperties.imageTopTextOutlineColor =
-            topTextOutlineColorValue;
-        })
-      );
-    },
-    setImageBottomTextOutlineColor: (bottomTextOutlineColorValue: string) => {
-      set(
-        produce<iEditImagePropertiesStore>((state) => {
-          state.editImageProperties.imageBottomTextOutlineColor =
-            bottomTextOutlineColorValue;
+          state.editImageProperties.textOutlineColor =
+            textOutlineColorValue;
         })
       );
     },
@@ -52,20 +53,6 @@ export const useEditImageProperties = create<iEditImagePropertiesStore>()(
       set(
         produce<iEditImagePropertiesStore>((state) => {
           state.editImageProperties.isDisabled = isDisabledValue;
-        })
-      );
-    },
-    setIsPortrait: (isPortraitValue: string) => {
-      set(
-        produce<iEditImagePropertiesStore>((state) => {
-          state.editImageProperties.isPortrait = isPortraitValue;
-        })
-      );
-    },
-    setImageResize: (imageResizeValue: number) => {
-      set(
-        produce<iEditImagePropertiesStore>((state) => {
-          state.editImageProperties.imageResize = imageResizeValue;
         })
       );
     },
@@ -77,11 +64,28 @@ export const useEditImageProperties = create<iEditImagePropertiesStore>()(
         })
       );
     },
-    setImageTopTextColor: (imageTopTextColorValue: string) => {
+    setImage2TopText: (image2TopTextValue: string) => {
       set(
         produce<iEditImagePropertiesStore>((state) => {
-          const imageTopTextColour = imageTopTextColorValue;
-          state.editImageProperties.imageTopTextColor = imageTopTextColour;
+          const image2TopText = image2TopTextValue;
+          state.editImageProperties.image2TopText = image2TopText;
+        })
+      );
+    },
+    setImage3TopText: (image3TopTextValue: string) => {
+      set(
+        produce<iEditImagePropertiesStore>((state) => {
+          const image3TopText = image3TopTextValue;
+          state.editImageProperties.image3TopText = image3TopText;
+        })
+      );
+    },
+
+    setTextColor: (textColorValue: string) => {
+      set(
+        produce<iEditImagePropertiesStore>((state) => {
+          const textColour = textColorValue;
+          state.editImageProperties.textColor = textColour;
         })
       );
     },
@@ -93,12 +97,19 @@ export const useEditImageProperties = create<iEditImagePropertiesStore>()(
         })
       );
     },
-    setImageBottomTextColor: (imageBottomTextColorValue: string) => {
+    setImage2BottomText: (image2BottomTextValue: string) => {
       set(
         produce<iEditImagePropertiesStore>((state) => {
-          const imageBottomTextColour = imageBottomTextColorValue;
-          state.editImageProperties.imageBottomTextColor =
-            imageBottomTextColour;
+          const image2BottomText = image2BottomTextValue;
+          state.editImageProperties.image2BottomText = image2BottomText;
+        })
+      );
+    },
+    setImage3BottomText: (image3BottomTextValue: string) => {
+      set(
+        produce<iEditImagePropertiesStore>((state) => {
+          const image3BottomText = image3BottomTextValue;
+          state.editImageProperties.image3BottomText = image3BottomText;
         })
       );
     },
@@ -108,30 +119,32 @@ export const useEditImageProperties = create<iEditImagePropertiesStore>()(
 interface iEditImagePropertiesStore {
   editImageProperties: EditImageProperties;
   setFontFamily: (n: string) => void;
-  setImageResize: (n: number) => void;
   setImageTopText: (n: string) => void;
-  setImageTopTextColor: (n: string) => void;
+  setImage2TopText: (n: string) => void;
+  setImage3TopText: (n: string) => void;
+  setTextColor: (n: string) => void;
   setImageBottomText: (n: string) => void;
-  setImageBottomTextColor: (n: string) => void;
+  setImage2BottomText: (n: string) => void;
+  setImage3BottomText: (n: string) => void;
   setIsDisabled: (n: boolean) => void;
-  setIsPortrait: (n: string) => void;
-  setImageTopTextOutlineColor: (n: string) => void;
-  setImageBottomTextOutlineColor: (n: string) => void;
+  setTextOutlineColor: (n: string) => void;
   setResizableDivVisible: (n: boolean) => void;
+  setUploadHidden: (n: boolean) => void;
 }
 
 export enum ImageResizeMinMax {}
 
 type EditImageProperties = {
   fontFamily: string;
-  imageResize: number;
   imageTopText: string;
-  imageTopTextColor: string;
+  image2TopText: string;
+  image3TopText: string;
   imageBottomText: string;
-  imageBottomTextColor: string;
+  image2BottomText: string;
+  image3BottomText: string;
+  textColor: string;
   isDisabled: boolean;
-  isPortrait: string;
-  imageTopTextOutlineColor: string;
-  imageBottomTextOutlineColor: string;
+  textOutlineColor: string;
   resizableDivVisible: boolean;
+  uploadHidden: boolean;
 };

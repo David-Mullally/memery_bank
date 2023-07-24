@@ -1,13 +1,13 @@
 "use client";
-import UploadDownloadImageComponent from "./components/UploadDownloadImageComponent";
-import EditImageComponent from "./components/EditImageComponent";
+import MemeComponent from "./components/displayComponents/memeComponent";
 
 const HomePage: React.FC = () => {
   return (
-    <div className="flex flex-wrap w-[100vw] h-[100vh] bg-gray-500">
-      <UploadDownloadImageComponent />
-      <EditImageComponent />
-    </div>
+    <>
+      <div className="flex flex-col w-[100vw] h-[100vh] bg-black">
+        <MemeComponent />
+      </div>
+    </>
   );
 };
 

@@ -1,7 +1,6 @@
 import React from "react";
 import Draggable, { DraggableData, DraggableEvent } from "react-draggable";
-import ResizableDiv from "./resizableDivComponent";
-import { useEditImageProperties } from "../../stores/EditImageProperties";
+import { useEditImageProperties } from "../stores/EditImageProperties";
 
 interface DraggableElementProps {
   defaultPosition: { x: number; y: number };
@@ -14,6 +13,16 @@ const DraggableElement: React.FC<DraggableElementProps> = ({
   isTopText,
   memePanelNum,
 }) => {
+  const editImageProperties = useEditImageProperties().editImageProperties;
+  const fontFamily = editImageProperties.fontFamily;
+  const imageTextColor = editImageProperties.textColor;
+  const imageTextOutlineColor = editImageProperties.textOutlineColor;
+  const imageTopText = editImageProperties.imageTopText;
+  const image2TopText = editImageProperties.image2TopText;
+  const image3TopText = editImageProperties.image3TopText;
+  const imageBottomText = editImageProperties.imageBottomText;
+  const image2BottomText = editImageProperties.image2BottomText;
+  const image3BottomText = editImageProperties.image3BottomText;
   const resizableDivVisible =
     useEditImageProperties().editImageProperties.resizableDivVisible;
   const parentRef = React.useRef<HTMLDivElement>(null);
@@ -38,6 +47,25 @@ const DraggableElement: React.FC<DraggableElementProps> = ({
     data.node.style.transform = `translate(${x}px, ${y}px)`;
   };
 
+  let content = "";
+  if (isTopText) {
+    if (memePanelNum === 1) {
+      content = imageTopText;
+    } else if (memePanelNum === 2) {
+      content = image2TopText;
+    } else if (memePanelNum === 3) {
+      content = image3TopText;
+    }
+  }
+  if (!isTopText) {
+    if (memePanelNum === 1) {
+      content = imageBottomText;
+    } else if (memePanelNum === 2) {
+      content = image2BottomText;
+    } else if (memePanelNum === 3) {
+      content = image3BottomText;
+    }
+  }
   return (
     <div
       ref={parentRef}
@@ -45,8 +73,9 @@ const DraggableElement: React.FC<DraggableElementProps> = ({
         border: resizableDivVisible ? "1px solid #ccc" : "",
         padding: "10px",
         position: "relative",
-        height: "150px",
+        height: "13.5vh",
         maxWidth: "100%",
+        overflow: "hidden"
       }}
     >
       {/* Draggable Element */}
@@ -62,10 +91,17 @@ const DraggableElement: React.FC<DraggableElementProps> = ({
             border: resizableDivVisible ? "1px solid #f00" : "",
             padding: "0px",
             cursor: "move",
-            maxWidth: "85%",
+            maxWidth: "100%",
+            fontSize: "1.5rem",
+            fontFamily: `${fontFamily}`,
+            height: "30%",
+            color: `${imageTextColor}`,
+            textShadow: `-1px -1px 0 ${imageTextOutlineColor}, 1px -1px 0 ${imageTextOutlineColor}, -1px 1px 0 ${imageTextOutlineColor}, 1px 1px 0 ${imageTextOutlineColor}`,
+            overflowWrap: "break-word", // Word wrap to prevent overflowing
+            overflow: "hidden", // Prevents more text from being visible beyond the container boundaries
           }}
         >
-          <ResizableDiv width={100} height={50} isTopText={isTopText} memePanelNum={memePanelNum} />
+          {content}
         </div>
       </Draggable>
     </div>

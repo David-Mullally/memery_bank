@@ -2,6 +2,7 @@ import React, { FC, useState } from "react";
 import { useEditImageProperties } from "@/app/stores/EditImageProperties";
 import { useMemeLayout } from "@/app/stores/memeLayout";
 import DraggableElement from "./draggableComponent";
+import Row from "react-bootstrap/Row"
 
 interface MemePanelComponentProps {
   memePanelNum: number;
@@ -35,15 +36,13 @@ const MemePanelComponent: FC<MemePanelComponentProps> = ({ memePanelNum }) => {
   // Functions
 
   return (
-    <div className="w-[600px] h-[30vh] bg-green-500 border-black border-black border-2 overflow-hidden">
+    <Row style={{height: "27vh", backgroundColor: "white", display: "flex", alignItems: "center", textAlign: "center", border: "1px solid gray"}}>
       {imageURL ? (
         <div
-          className="w-[600px] h-[30vh]"
           style={{
             backgroundImage: `url(${imageURLs[memePanelNum - 1]})`,
             backgroundSize: `${imageResizeVals[memePanelNum - 1]}%`,
             backgroundRepeat: "no-repeat",
-            paddingBottom: "40px"
           }}
         >
           <DraggableElement isTopText={true} defaultPosition={{ x: 0, y: 0 }} memePanelNum={memePanelNum} />
@@ -54,9 +53,16 @@ const MemePanelComponent: FC<MemePanelComponentProps> = ({ memePanelNum }) => {
           />
         </div>
       ) : (
-        <div className="w-[600px] h-[30vh] border-black border-black border-2"></div>
+          <div>
+            <DraggableElement isTopText={true} defaultPosition={{ x: 0, y: 0 }} memePanelNum={memePanelNum} />
+          <DraggableElement
+            isTopText={false}
+            defaultPosition={{ x: 0, y: 0 }}
+            memePanelNum={memePanelNum}
+          />
+        </div>
       )}
-    </div>
+    </Row>
   );
 };
 

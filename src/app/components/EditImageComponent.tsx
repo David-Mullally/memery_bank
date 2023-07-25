@@ -1,7 +1,9 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { useEditImageProperties } from "@/app/stores/EditImageProperties";
-import FontFamilyComponent from "./displayComponents/fontFamilyComponent";
 import { useMemeLayout } from "../stores/memeLayout";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Button from "react-bootstrap/Button";
 
 interface EditImageComponentProps {
   memePanelNum: number;
@@ -44,6 +46,7 @@ const EditImageComponent: FC<EditImageComponentProps> = ({ memePanelNum }) => {
   const setThirdPanelResize = memeLayout.setThirdPanelResize;
   //React hooks
   //useState
+  const [uploadInputDisplay, setUploadInputDisplay] = useState<boolean>(false);
   //other variables
   const topTexts = [imageTopText, image2TopText, image3TopText];
   const bottomTexts = [imageBottomText, image2BottomText, image3BottomText];
@@ -65,27 +68,52 @@ const EditImageComponent: FC<EditImageComponentProps> = ({ memePanelNum }) => {
     }
   };
 
+  const setImageURL = useMemeLayout().setImageURL;
+  const setImage2URL = useMemeLayout().setImage2URL;
+  const setImage3URL = useMemeLayout().setImage3URL;
+
+  const handleUploadInputDisplay = () => {
+    setUploadInputDisplay(true);
+  };
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      if (memePanelNum === 1) {
+        const imageURL = URL.createObjectURL(file);
+        setImageURL(imageURL);
+      } else if (memePanelNum === 2) {
+        const image2URL = URL.createObjectURL(file);
+        setImage2URL(image2URL);
+      } else if (memePanelNum === 3) {
+        const image3URL = URL.createObjectURL(file);
+        setImage3URL(image3URL);
+      }
+    }
+    setUploadInputDisplay(false);
+  };
   const handleImageTextChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     isTopText: boolean
   ) => {
     const imageText = e.currentTarget.value;
-    if (isTopText) {
-      if (memePanelNum === 1) {
-        setImageTopText(imageText);
-      } else if (memePanelNum === 2) {
-        setImage2TopText(imageText);
-      } else if (memePanelNum === 3) {
-        setImage3TopText(imageText);
+    if (e.currentTarget.value.length < 35) {
+      if (isTopText) {
+        if (memePanelNum === 1) {
+          setImageTopText(imageText);
+        } else if (memePanelNum === 2) {
+          setImage2TopText(imageText);
+        } else if (memePanelNum === 3) {
+          setImage3TopText(imageText);
+        }
       }
-    }
-    if (!isTopText) {
-      if (memePanelNum === 1) {
-        setImageBottomText(imageText);
-      } else if (memePanelNum === 2) {
-        setImage2BottomText(imageText);
-      } else if (memePanelNum === 3) {
-        setImage3BottomText(imageText);
+      if (!isTopText) {
+        if (memePanelNum === 1) {
+          setImageBottomText(imageText);
+        } else if (memePanelNum === 2) {
+          setImage2BottomText(imageText);
+        } else if (memePanelNum === 3) {
+          setImage3BottomText(imageText);
+        }
       }
     }
   };
@@ -102,68 +130,60 @@ const EditImageComponent: FC<EditImageComponentProps> = ({ memePanelNum }) => {
   };
 
   return (
-    <div className="flex flex-col bg-gray-500 h-[100%] justify-center" style={{paddingTop: "5px"}}>
-      <div className="flex justify-center">
-        Resize Image (%)
-        <input
-          type="Number"
-          name="imageResize"
-          id="imageResize"
-          value={imageResizeVals[memePanelNum - 1]}
-          onChange={handleImageResizeChange}
-          disabled={isDisabled}
-        />
-      </div>
-      <FontFamilyComponent />
-      <br />
-      <div className="flex justify-center">
-        Image Top Text
-        <input
-          type="text"
-          name="imageTopText"
-          id="imageTopText"
-          value={topTexts[memePanelNum - 1]}
-          onChange={(e) => handleImageTextChange(e, true)}
-          disabled={isDisabled}
-        />
-      </div>
-      <div className="flex justify-center">
-        Image Bottom Text
-        <input
-          type="text"
-          name="imageBottomText"
-          id="imageBottomText"
-          value={bottomTexts[memePanelNum - 1]}
-          onChange={(e) => handleImageTextChange(e, false)}
-          disabled={isDisabled}
-        />
-      </div>
-      <div className="flex">
-        <div className="flex">
-          Text Color
-          <input
-            type="color"
-            name="textColor"
-            id="textkColor"
-            value={textColor}
-            onChange={(e) => handleImageTextColor(e)}
-            disabled={isDisabled}
-          />
-        </div>
-        <div className="flex">
-          Text Outline Color
-          <input
-            type="color"
-            name="topTextOutlineColor"
-            id="topTextOutlineColor"
-            value={textOutlineColor}
-            onChange={(e) => handleImageTextOutlineColor(e)}
-            disabled={isDisabled}
-          />
-        </div>
-      </div>
-    </div>
+    <>
+      <Row xl={12} style={{ background: "blue"}}>
+        {uploadInputDisplay ? (
+          <Row xl={12}>
+            <input type="file" accept="image/*" onChange={handleImageChange} />
+          </Row>
+        ) : (
+          <Button variant="primary" onClick={handleUploadInputDisplay}>
+            UPLOAD
+          </Button>
+        )}
+      </Row>
+      <Row xl={6} style={{ height: "27vh" }}>
+        <Col xl={12} style={{textAlign: "center", color: "#fff",display: "flex", flexDirection: "column" , background: "black", paddingTop:"5%"}}>
+          <div>
+            <div style={{marginBottom: "5%"}}>
+            Resize Image (%)
+            <input
+              type="Number"
+              name="imageResize"
+              id="imageResize"
+              value={imageResizeVals[memePanelNum - 1]}
+              onChange={handleImageResizeChange}
+              disabled={isDisabled}
+              />
+              </div>
+            <div style={{marginBottom: "5%"}}>
+              Image Top Text
+              <input
+                type="text"
+                name="imageTopText"
+                id="imageTopText"
+                value={topTexts[memePanelNum - 1]}
+                onChange={(e) => handleImageTextChange(e, true)}
+                disabled={isDisabled}
+              />
+            </div>
+            <div >
+              Image Bottom Text
+              <input
+                type="text"
+                name="imageBottomText"
+                id="imageBottomText"
+                value={bottomTexts[memePanelNum - 1]}
+                onChange={(e) => handleImageTextChange(e, false)}
+                disabled={isDisabled}
+              />
+            </div>
+          </div>
+        </Col>
+      </Row>
+    </>
   );
 };
 
 export default EditImageComponent;
+

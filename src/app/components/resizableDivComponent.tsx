@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ResizableBox, ResizeCallbackData } from "react-resizable";
-import { useEditImageProperties } from "../../stores/EditImageProperties";
+import { useEditImageProperties } from "@/app/stores/EditImageProperties";
 
 interface ResizableDivProps {
   width: number;
@@ -84,7 +84,7 @@ const ResizableDiv: React.FC<ResizableDivProps> = ({
 
   // For resizing font based current div size
   const maxFontSize = 60;
-  const minFontSize = 5;
+  const minFontSize = 20;
   const fontSizeBasedOnWidth = (currentWidth / 1000) * maxFontSize;
   /*const fontSizeBasedOnHeight = (currentHeight / 500) * maxFontSize;*/
   const fontSize = Math.min(
@@ -108,7 +108,6 @@ const ResizableDiv: React.FC<ResizableDivProps> = ({
     fontFamily: `${fontFamily}`,
     textAlign: "center",
     maxWidth: "80%",
-    marginBottom: "50px",
   };
   return (
     <div style={{ position: "relative" }}>

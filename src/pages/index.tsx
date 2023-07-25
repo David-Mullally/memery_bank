@@ -7,9 +7,6 @@ const HomePage: React.FC = () => {
   return (
     <Container fluid style={{background: "#000", padding: " 0"}}>
       <OffcanvasExample />
-      <Row>
-        <Col style={{background: "green", height: "100vh"}}>1 of 3</Col>
-      </Row>
     </Container>
   );
 }

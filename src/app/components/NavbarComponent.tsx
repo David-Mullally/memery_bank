@@ -6,8 +6,14 @@ import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import Link from "next/link";
+import { useNavbar } from "../stores/navbar";
 
 function OffcanvasExample() {
+    const currentPage = useNavbar().navbarProperties.currentPage;
+    const setCurrentPage = useNavbar().setCurrentPage;
+    const handleCurrentPage = (currentPage: string) => {
+        setCurrentPage(currentPage)
+    }
   return (
     <>
       {["false"].map((expand) => (
@@ -26,11 +32,67 @@ function OffcanvasExample() {
                 </Offcanvas.Title>
               </Offcanvas.Header>
               <Offcanvas.Body>
-                          <Nav className="justify-content-end flex-grow-1 pe-3">
-                              <Link href="/" legacyBehavior><a className="nav-link">Home</a></Link>
-                              <Link href="/about" legacyBehavior><a className="nav-link">About</a></Link>
-                              <Link href="/memePage" legacyBehavior><a className="nav-link">Make Memes</a></Link>
-                              <Link href="/contact" legacyBehavior><a className="nav-link">Contact</a></Link>
+                <Nav className="justify-content-end flex-grow-1 pe-3">
+                  <Link href="/" legacyBehavior>
+                    {currentPage === "/" ? (
+                      <a
+                        onClick={()=>handleCurrentPage("/")}
+                        className="nav-link"
+                        style={{ borderBottom: "1px solid yellow" }}
+                      >
+                        Home
+                      </a>
+                    ) : (
+                      <a onClick={()=>handleCurrentPage("/")} className="nav-link">
+                        Home
+                      </a>
+                    )}
+                  </Link>
+                  <Link href="/about" legacyBehavior>
+                    {currentPage === "/about" ? (
+                      <a
+                        onClick={()=>handleCurrentPage("/about")}
+                        className="nav-link"
+                        style={{ borderBottom: "1px solid yellow" }}
+                      >
+                        About
+                      </a>
+                    ) : (
+                      <a onClick={()=>handleCurrentPage("/about")} className="nav-link">
+                        About
+                      </a>
+                    )}
+                  </Link>
+                  <Link href="/memePage" legacyBehavior>
+                    {currentPage === "/memePage" ? (
+                      <a
+                        onClick={()=>handleCurrentPage("/memePage")}
+                        className="nav-link"
+                        style={{ borderBottom: "1px solid yellow" }}
+                      >
+                        Make Memes
+                      </a>
+                    ) : (
+                      <a onClick={()=>handleCurrentPage("/memePage")} className="nav-link">
+                        Make Memes
+                      </a>
+                    )}
+                  </Link>
+                  <Link href="/" legacyBehavior>
+                    {currentPage === "/contact" ? (
+                      <a
+                        onClick={()=>handleCurrentPage("/contact")}
+                        className="nav-link"
+                        style={{ borderBottom: "1px solid yellow" }}
+                      >
+                        Contact
+                      </a>
+                    ) : (
+                      <a onClick={()=>handleCurrentPage("/contact")} className="nav-link">
+                        Contact
+                      </a>
+                    )}
+                  </Link>
                   {/* <NavDropdown
                     title="Dropdown"
                     id={`offcanvasNavbarDropdown-expand-${expand}`}

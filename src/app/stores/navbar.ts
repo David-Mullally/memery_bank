@@ -22,5 +22,5 @@ interface iNavbarStore {
 export enum ImageResizeMinMax {}
 
 type NavbarProperties = {
-    currentPage: string;
+  currentPage: string;
 };

@@ -142,8 +142,8 @@ const EditImageComponent: FC<EditImageComponentProps> = ({ memePanelNum }) => {
           </Button>
         )}
       </Row>
-      <Row xl={6} style={{ height: "27vh" }}>
-        <Col xl={12} style={{textAlign: "center", color: "#fff",display: "flex", flexDirection: "column" , background: "black", paddingTop:"5%"}}>
+      <Row xl={6} style={{ height: "28vh" }}>
+        <Col xl={12} style={{textAlign: "center", color: "#fff",display: "flex", flexDirection: "column" , background: "gray", paddingTop:"5%"}}>
           <div>
             <div style={{marginBottom: "5%"}}>
             Resize Image (%)

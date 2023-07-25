@@ -17,7 +17,7 @@ function OffcanvasExample() {
   return (
     <>
       {["false"].map((expand) => (
-        <Navbar key={expand} expand={expand} className="bg-body-tertiary mb-3">
+        <Navbar style={{zIndex: "5"}} key={expand} expand={expand} className="bg-body-tertiary mb-3">
           <Container fluid>
             <Navbar.Brand href="#">MemeryBank</Navbar.Brand>
             <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
@@ -78,7 +78,7 @@ function OffcanvasExample() {
                       </a>
                     )}
                   </Link>
-                  <Link href="/" legacyBehavior>
+                  <Link href="/contact" legacyBehavior>
                     {currentPage === "/contact" ? (
                       <a
                         onClick={()=>handleCurrentPage("/contact")}

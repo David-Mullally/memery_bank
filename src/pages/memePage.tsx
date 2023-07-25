@@ -3,11 +3,9 @@ import MemeComponent from "@/app/components/memeComponent";
 import { Container, Row } from "react-bootstrap";
 import { useMemeLayout } from "@/app/stores/memeLayout";
 import EditImageComponent from "@/app/components/EditImageComponent";
-import { useEditImageProperties } from "@/app/stores/EditImageProperties";
 
 const MemePage: React.FC = () => {
   const memePanelNum = useMemeLayout().memeLayoutProperties.memePanelNum;
-  const resizableDivVisible = useEditImageProperties().editImageProperties.resizableDivVisible;
   function createArray2WithLength(length: number): any[] {
     const editArray: any[] = [];
 
@@ -26,7 +24,6 @@ const MemePage: React.FC = () => {
         height: "100vh",
         width: "100vw",
         padding: "0",
-        overflow: "hidden",
       }}
     >
       <OffcanvasExample />

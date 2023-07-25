@@ -165,7 +165,7 @@ const MemeComponent: FC<MemeComponentProps> = () => {
         <div>
           {editArray.map((panel, i) => {
             return (
-              <Row key={i} style={{ height: "27vh"}}>
+              <Row key={i} style={{ height: "28vh"}}>
                 {/*  <MemeButtonsComponent
                 downloadDisabled={false}
                 memePanelNum={i + 1}
@@ -189,7 +189,8 @@ const MemeComponent: FC<MemeComponentProps> = () => {
           > CLEAR MEME </Button>
         </Row>
       </Col>
-      <Col xl={4} style={{background:"white"}} ></Col>
+      <Col xl={4} style={{ background: "gray" }} >
+      </Col>
     </>
   );
 };

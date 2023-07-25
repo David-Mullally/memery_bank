@@ -19,7 +19,9 @@ function OffcanvasExample() {
       {["false"].map((expand) => (
         <Navbar style={{zIndex: "5"}} key={expand} expand={expand} className="bg-body-tertiary mb-3">
           <Container fluid>
+          <Link href="/" legacyBehavior passHref>
             <Navbar.Brand href="/">MemeryBank</Navbar.Brand>
+            </Link>
             <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
             <Navbar.Offcanvas
               id={`offcanvasNavbar-expand-${expand}`}

@@ -92,7 +92,7 @@ const DraggableElement: React.FC<DraggableElementProps> = ({
             padding: "0px",
             cursor: "move",
             maxWidth: "100%",
-            fontSize: "1.5rem",
+            fontSize: "1.4em",
             fontFamily: `${fontFamily}`,
             height: "30%",
             color: `${imageTextColor}`,

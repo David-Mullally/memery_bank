@@ -96,7 +96,7 @@ const EditImageComponent: FC<EditImageComponentProps> = ({ memePanelNum }) => {
     isTopText: boolean
   ) => {
     const imageText = e.currentTarget.value;
-    if (e.currentTarget.value.length < 30) {
+    if (e.currentTarget.value.length < 20) {
       if (isTopText) {
         if (memePanelNum === 1) {
           setImageTopText(imageText);

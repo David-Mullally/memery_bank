@@ -90,7 +90,7 @@ const DraggableElement: React.FC<DraggableElementProps> = ({
             border: resizableDivVisible ? "1px solid #f00" : "",
             cursor: "move",
             maxWidth: "100%",
-            fontSize: "2vh",
+            fontSize: "3vw",
             fontFamily: `${fontFamily}`,
             color: `${imageTextColor}`,
             textShadow: `-1px -1px 0 ${imageTextOutlineColor}, 1px -1px 0 ${imageTextOutlineColor}, -1px 1px 0 ${imageTextOutlineColor}, 1px 1px 0 ${imageTextOutlineColor}`,

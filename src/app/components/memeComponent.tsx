@@ -152,7 +152,7 @@ const MemeComponent: FC<MemeComponentProps> = () => {
           {panelArray.map((panel) => {
             return panel;
           })}
-          <div style={{opacity: "0.7", position: "absolute", bottom: "0", right:"0", color: "black", background: "gray",  textAlign: "center", width: "40%"}}>made with MemeryBank</div>
+          <div style={{opacity: "0.7", position: "absolute", bottom: "0", right:"0", color: "black", background: "gray",  textAlign: "center", width: "40%", fontSize: "0.7em"}}>made with MemeryBank</div>
         </div>
         <Row style={{ height: "4vh" }}>
           <Button variant="primary" onClick={handleImageDownload} >

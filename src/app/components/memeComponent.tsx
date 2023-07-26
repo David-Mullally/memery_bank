@@ -147,7 +147,7 @@ const MemeComponent: FC<MemeComponentProps> = () => {
           <FontFamilyComponent />
       </Row>
       <Row>
-      <Col xs={7} xl={4} style={{ position: "relative", textAlign:"center", color: "orange" }}>
+      <Col xs={8} xl={4} style={{ position: "relative", textAlign:"center", color: "orange" }}>
         <div ref={divRef} style={{position: "relative", marginBottom: "0"}}>
           {panelArray.map((panel) => {
             return panel;
@@ -156,19 +156,19 @@ const MemeComponent: FC<MemeComponentProps> = () => {
         </div>
         <Row style={{ height: "4vh" }}>
           <Button variant="primary" onClick={handleImageDownload} >
-            DOWNLOAD MEME
+            DOWNLOAD
         </Button>
         </Row>
       </Col>
       <Col
-        xs={5}
+        xs={4}
         xl={4}
         style={{ position: "relative", height: "100vh" }}
         >
         <div>
           {editArray.map((panel, i) => {
             return (
-              <Row key={i} style={{ height: "26vh"}}>
+              <Row key={i} style={{ height: "31.5vh"}}>
                 {/*  <MemeButtonsComponent
                 downloadDisabled={false}
                 memePanelNum={i + 1}
@@ -189,7 +189,7 @@ const MemeComponent: FC<MemeComponentProps> = () => {
           <Button 
             variant="danger"
             onClick={handleClearMeme}
-          > CLEAR MEME </Button>
+          > CLEAR </Button>
         </Row>
         </Col>
         </Row>

@@ -36,7 +36,7 @@ const MemePanelComponent: FC<MemePanelComponentProps> = ({ memePanelNum }) => {
   // Functions
 
   return (
-    <Row style={{height: "26vh", backgroundColor: "white", display: "flex", alignItems: "center", textAlign: "center", border: "1px solid gray", opacity: "0.95"}}>
+    <Row style={{height: "31.5vh", backgroundColor: "white", display: "flex", alignItems: "center", textAlign: "center", border: "1px solid gray", opacity: "0.95"}}>
       {imageURL ? (
         <div
           style={{

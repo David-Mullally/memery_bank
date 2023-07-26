@@ -52,15 +52,15 @@ const HomePage: React.FC = () => {
             
           }}
         >
-          <Image src="/images/vaultIconnb.png" alt="MemeryBank Logo" width={200} height={200} />
-          <h1 style={{ fontSize: "1.8em" }}>THINK IT. MAKE IT. MEME IT.</h1>
+          <Image src="/images/vaultIconnb.png" alt="MemeryBank Logo" width={150} height={150} />
+          <h1 style={{ fontSize: "1.6em" }}>THINK IT. MAKE IT. MEME IT.</h1>
           <br />
           <br />
-          <h5 style={{maxWidth: "80%"}}>
-            This site is currently under construction. But you can still make
-            some memes. Click the link below.
+          <h5 style={{maxWidth: "80%", fontSize: "1em"}}>
+            This site is currently under construction. <br />But you can still make
+            some memes. <br /> Click the link below.
           </h5>
-          <Link href="/memePage" legacyBehavior><a className="nav-link" style={ {fontSize: "1.5em", border: "1px solid yellow", width: "50%"}}>Start Memeing...</a></Link> 
+          <Link href="/memePage" legacyBehavior><a className="nav-link" style={ {fontSize: "1em", border: "1px solid yellow", width: "50%"}}>Start Memeing...</a></Link> 
         </div>
       </div>
     </Container>

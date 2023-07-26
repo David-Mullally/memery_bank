@@ -96,7 +96,7 @@ const EditImageComponent: FC<EditImageComponentProps> = ({ memePanelNum }) => {
     isTopText: boolean
   ) => {
     const imageText = e.currentTarget.value;
-    if (e.currentTarget.value.length < 35) {
+    if (e.currentTarget.value.length < 30) {
       if (isTopText) {
         if (memePanelNum === 1) {
           setImageTopText(imageText);
@@ -137,7 +137,7 @@ const EditImageComponent: FC<EditImageComponentProps> = ({ memePanelNum }) => {
             <input type="file" accept="image/*" onChange={handleImageChange} />
           </Row>
         ) : (
-            <Button style={{height:"4vh"}} variant="primary" onClick={handleUploadInputDisplay}>
+            <Button style={{height:"4.2vh"}} variant="primary" onClick={handleUploadInputDisplay}>
             UPLOAD
           </Button>
         )}
@@ -146,7 +146,7 @@ const EditImageComponent: FC<EditImageComponentProps> = ({ memePanelNum }) => {
         <Col xl={12} style={{textAlign: "center", color: "#fff",display: "flex", flexDirection: "column" , background: "#000"}}>
           <div>
             <div style={{ marginBottom: "2%" }}>
-              resize image(%)
+              resize(%)
             <input
               type="Number"
               name="imageResize"

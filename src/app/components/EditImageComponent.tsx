@@ -137,27 +137,28 @@ const EditImageComponent: FC<EditImageComponentProps> = ({ memePanelNum }) => {
             <input type="file" accept="image/*" onChange={handleImageChange} />
           </Row>
         ) : (
-          <Button variant="primary" onClick={handleUploadInputDisplay}>
+            <Button style={{height:"4vh"}} variant="primary" onClick={handleUploadInputDisplay}>
             UPLOAD
           </Button>
         )}
       </Row>
-      <Row xl={6} style={{ height: "28vh" }}>
-        <Col xl={12} style={{textAlign: "center", color: "#fff",display: "flex", flexDirection: "column" , background: "gray", paddingTop:"5%"}}>
+      <Row xl={6} style={{ height: "22vh" }}>
+        <Col xl={12} style={{textAlign: "center", color: "#fff",display: "flex", flexDirection: "column" , background: "#000"}}>
           <div>
-            <div style={{marginBottom: "5%"}}>
-            Resize Image (%)
+            <div style={{ marginBottom: "2%" }}>
+              resize image(%)
             <input
               type="Number"
               name="imageResize"
               id="imageResize"
               value={imageResizeVals[memePanelNum - 1]}
               onChange={handleImageResizeChange}
-              disabled={isDisabled}
+                disabled={isDisabled}
+              style={{maxWidth: "calc(100% - 1em)"}}
               />
               </div>
-            <div style={{marginBottom: "5%"}}>
-              Image Top Text
+            <div style={{ marginBottom: "2%" }}>
+              top text
               <input
                 type="text"
                 name="imageTopText"
@@ -165,10 +166,11 @@ const EditImageComponent: FC<EditImageComponentProps> = ({ memePanelNum }) => {
                 value={topTexts[memePanelNum - 1]}
                 onChange={(e) => handleImageTextChange(e, true)}
                 disabled={isDisabled}
+                style={{maxWidth: "calc(100% - 1em)"}}
               />
             </div>
             <div >
-              Image Bottom Text
+              bottom text
               <input
                 type="text"
                 name="imageBottomText"
@@ -176,6 +178,8 @@ const EditImageComponent: FC<EditImageComponentProps> = ({ memePanelNum }) => {
                 value={bottomTexts[memePanelNum - 1]}
                 onChange={(e) => handleImageTextChange(e, false)}
                 disabled={isDisabled}
+                className="w-[100%]"
+                style={{maxWidth: "calc(100% - 1em)"}}
               />
             </div>
           </div>

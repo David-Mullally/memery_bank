@@ -20,16 +20,15 @@ const MemePage: React.FC = () => {
     <Container
       fluid
       style={{
-        background: "#000",
+        background: "black",
         height: "100vh",
         width: "100vw",
         padding: "0",
+        margin: "0",
       }}
     >
       <OffcanvasExample />
-      <Row>
        <MemeComponent />
-      </Row>
     </Container>
   );
 };

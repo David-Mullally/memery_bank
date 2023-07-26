@@ -46,17 +46,21 @@ const HomePage: React.FC = () => {
             zIndex: "2",
             color: "white",
             textAlign: "center",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center"
+            
           }}
         >
-          <Image src="/images/vaultIconnb.png" alt="MemeryBank Logo" width={300} height={300} />
-          <h1 style={{ fontSize: "3em" }}>THINK IT. MAKE IT. MEME IT.</h1>
+          <Image src="/images/vaultIconnb.png" alt="MemeryBank Logo" width={200} height={200} />
+          <h1 style={{ fontSize: "1.8em" }}>THINK IT. MAKE IT. MEME IT.</h1>
           <br />
           <br />
-          <h3>
-            This site is currently under construction.<br/>But you can still make
+          <h5 style={{maxWidth: "80%"}}>
+            This site is currently under construction. But you can still make
             some memes. Click the link below.
-          </h3>
-          <Link href="/memePage" legacyBehavior><a className="nav-link" style={ {fontSize: "1.5em", border: "1px solid yellow"}}>Get Memeing...</a></Link> 
+          </h5>
+          <Link href="/memePage" legacyBehavior><a className="nav-link" style={ {fontSize: "1.5em", border: "1px solid yellow", width: "50%"}}>Start Memeing...</a></Link> 
         </div>
       </div>
     </Container>

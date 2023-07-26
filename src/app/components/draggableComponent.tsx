@@ -72,7 +72,7 @@ const DraggableElement: React.FC<DraggableElementProps> = ({
       style={{
         border: resizableDivVisible ? "1px solid #ccc" : "",
         position: "relative",
-        height: "13.5vh",
+        height: "13vh",
         maxWidth: "100%",
         overflow: "hidden"
       }}
@@ -88,7 +88,6 @@ const DraggableElement: React.FC<DraggableElementProps> = ({
           ref={elementRef}
           style={{
             border: resizableDivVisible ? "1px solid #f00" : "",
-            padding: "0px",
             cursor: "move",
             maxWidth: "100%",
             fontSize: "1.5em",

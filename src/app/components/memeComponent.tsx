@@ -3,11 +3,12 @@ import MemePanelComponent from "./memePanelComponent";
 import { useMemeLayout } from "@/app/stores/memeLayout";
 import EditImageComponent from "./EditImageComponent";
 import html2canvas from "html2canvas";
-import { useEditImageProperties } from "@/app/stores/EditImageProperties";
+import { useEditImageProperties } from "../stores/EditImageProperties";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button"
 import FontFamilyComponent from "./fontFamilyComponent";
+import Container from "react-bootstrap/Container";
 
 interface MemeComponentProps {}
 
@@ -115,11 +116,11 @@ const MemeComponent: FC<MemeComponentProps> = () => {
   const panelArray = createArrayWithLength(memePanelNum);
   const editArray = createArray2WithLength(memePanelNum);
   return (
-    <>
-      <Row xl={12} style={{ background: "black", color: "#fff", height: "4vh", display: "flex" }}>
-        <Col>Panels
+    <Container fluid style={{background:"black"}}>
+      <Row xl={12} style={{ background: "black", color: "#fff", height:"6vh"}}>
+        <Col xs={4}>Panels
           <input type="number" name="memePanelNum" id="memePanelNum" min={1} max={3} value={memePanelNum} onChange={handleMemePanelNumChange} /></Col>
-        <Col>
+        <Col xs={4} style={{display:"flex"}}>
           Text
           <input
             type="color"
@@ -130,7 +131,7 @@ const MemeComponent: FC<MemeComponentProps> = () => {
             disabled={false}
           />
         </Col>
-        <Col>
+        <Col xs={4} style={{display:"flex"}}>
           Outline
           <input
             type="color"
@@ -141,31 +142,33 @@ const MemeComponent: FC<MemeComponentProps> = () => {
             disabled={false}
           />
         </Col>
-        <Col>
-          <FontFamilyComponent />
-        </Col>
       </Row>
-      <Col xs={8} xl={4} style={{ position: "relative" }}>
-        <div ref={divRef}>
+      <Row xs={12} style ={{background: "black", textAlign:"center"}}>
+          <FontFamilyComponent />
+      </Row>
+      <Row>
+      <Col xs={7} xl={4} style={{ position: "relative", textAlign:"center", color: "orange" }}>
+        <div ref={divRef} style={{position: "relative", marginBottom: "0"}}>
           {panelArray.map((panel) => {
             return panel;
           })}
+          <div style={{opacity: "0.7", position: "absolute", bottom: "0", color: "black", background: "gray",  textAlign: "center", width: "100%"}}>made with MemeryBank</div>
         </div>
-        <Row style={{ height: "6vh" }}>
+        <Row style={{ height: "4vh" }}>
           <Button variant="primary" onClick={handleImageDownload} >
             DOWNLOAD MEME
         </Button>
         </Row>
       </Col>
       <Col
-        xs={4}
+        xs={5}
         xl={4}
         style={{ position: "relative", height: "100vh" }}
-      >
+        >
         <div>
           {editArray.map((panel, i) => {
             return (
-              <Row key={i} style={{ height: "28vh"}}>
+              <Row key={i} style={{ height: "26vh"}}>
                 {/*  <MemeButtonsComponent
                 downloadDisabled={false}
                 memePanelNum={i + 1}
@@ -182,16 +185,15 @@ const MemeComponent: FC<MemeComponentProps> = () => {
             );
           })}
         </div>
-        <Row style={{ height: "6vh" }}>
+        <Row style={{ height: "4vh" }}>
           <Button 
             variant="danger"
             onClick={handleClearMeme}
           > CLEAR MEME </Button>
         </Row>
-      </Col>
-      <Col xl={4} style={{ background: "gray" }} >
-      </Col>
-    </>
+        </Col>
+        </Row>
+    </Container>
   );
 };
 

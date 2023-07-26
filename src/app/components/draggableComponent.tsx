@@ -90,9 +90,8 @@ const DraggableElement: React.FC<DraggableElementProps> = ({
             border: resizableDivVisible ? "1px solid #f00" : "",
             cursor: "move",
             maxWidth: "100%",
-            fontSize: "1vh",
+            fontSize: "2vh",
             fontFamily: `${fontFamily}`,
-            height: "2em",
             color: `${imageTextColor}`,
             textShadow: `-1px -1px 0 ${imageTextOutlineColor}, 1px -1px 0 ${imageTextOutlineColor}, -1px 1px 0 ${imageTextOutlineColor}, 1px 1px 0 ${imageTextOutlineColor}`,
             overflowWrap: "break-word", // Word wrap to prevent overflowing

@@ -4,11 +4,12 @@ import { useMemeLayout } from "@/app/stores/memeLayout";
 import EditImageComponent from "./EditImageComponent";
 import html2canvas from "html2canvas";
 import { useEditImageProperties } from "../stores/EditImageProperties";
+import OffcanvasNavbar from "./NavbarComponent";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
-import Button from "react-bootstrap/Button"
-import FontFamilyComponent from "./fontFamilyComponent";
 import Container from "react-bootstrap/Container";
+import { useEffect, useState } from "react";
+import useOrientation from "./utils/hooks/useOrientation";
 
 interface MemeComponentProps {}
 
@@ -25,21 +26,12 @@ const MemeComponent: FC<MemeComponentProps> = () => {
   const textOutlineColor = editImageProperties.textOutlineColor;
   const setTextColor = useEditImageProperties().setTextColor;
   const setTextOutlineColor = useEditImageProperties().setTextOutlineColor;
-  const setImageURL = useMemeLayout().setImageURL;
-  const setImage2URL = useMemeLayout().setImage2URL;
-  const setImage3URL = useMemeLayout().setImage3URL;
-  const setImageTopText = useEditImageProperties().setImageTopText;
-  const setImageTop2Text = useEditImageProperties().setImage2TopText;
-  const setImageTop3Text = useEditImageProperties().setImage3TopText;
-  const setImageBottomText = useEditImageProperties().setImageBottomText;
-  const setImageBottom2Text = useEditImageProperties().setImage2BottomText;
-  const setImageBottom3Text = useEditImageProperties().setImage3BottomText;
-  const setFontFamily = useEditImageProperties().setFontFamily;
-  const setFirstPanelResize = useMemeLayout().setFirstPanelResize;
-  const setSecondPanelResize = useMemeLayout().setSecondPanelResize;
-  const setThirdPanelResize = useMemeLayout().setThirdPanelResize;
+  const orientation = useOrientation();
+  const [isLandscape, setIsLandscape] = useState<boolean>(false);
 
-
+  useEffect(() => {
+    setIsLandscape(orientation);
+  }, [orientation]);
 
   const handleImageDownload = () => {
     setResizableDivVisible(false);
@@ -61,40 +53,6 @@ const MemeComponent: FC<MemeComponentProps> = () => {
     }, 4000);
   };
 
-  const handleMemePanelNumChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setMemePanelNum(Number(e.currentTarget.value));
-  };
-
-  const handleImageTextColor = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const imageTextColor = e.currentTarget.value;
-    setTextColor(imageTextColor);
-  };
-
-  const handleImageTextOutlineColor = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const imageTextColor = e.currentTarget.value;
-    setTextOutlineColor(imageTextColor);
-  };
-
-  const handleClearMeme = () => {
-    setImageURL("");
-    setImage2URL("");
-    setImage3URL("");
-    setImageTopText("");
-    setImageTop2Text("");
-    setImageTop3Text("");
-    setImageBottomText("");
-    setImageBottom2Text("");
-    setImageBottom3Text("");
-    setFontFamily("Arial");
-    setTextColor("#000");
-    setTextOutlineColor("#000");
-    setFirstPanelResize(100);
-    setSecondPanelResize(100);
-    setThirdPanelResize(100);
-  }
-
   function createArrayWithLength(length: number): any[] {
     const panelArray: any[] = [];
 
@@ -113,66 +71,46 @@ const MemeComponent: FC<MemeComponentProps> = () => {
     return editArray;
   }
 
-  const panelArray = createArrayWithLength(memePanelNum);
-  const editArray = createArray2WithLength(memePanelNum);
+  const panelArray = createArrayWithLength(1);
+  const editArray = createArray2WithLength(1);
   return (
-    <Container fluid style={{background:"black"}}>
-      <Row xl={12} style={{ background: "black", color: "#fff", height:"6vh"}}>
-        <Col xs={4}>Panels
-          <input type="number" name="memePanelNum" id="memePanelNum" min={1} max={3} value={memePanelNum} onChange={handleMemePanelNumChange} /></Col>
-        <Col xs={4} style={{display:"flex"}}>
-          Text
-          <input
-            type="color"
-            name="textColor"
-            id="textColor"
-            value={textColor}
-            onChange={(e) => handleImageTextColor(e)}
-            disabled={false}
-          />
-        </Col>
-        <Col xs={4} style={{display:"flex"}}>
-          Outline
-          <input
-            type="color"
-            name="textOutlineColor"
-            id="textOutlineColor"
-            value={textOutlineColor}
-            onChange={(e) => handleImageTextOutlineColor(e)}
-            disabled={false}
-          />
-        </Col>
-      </Row>
-      <Row xs={12} style ={{background: "black", textAlign:"center"}}>
-          <FontFamilyComponent />
-      </Row>
+    <>
+      {isLandscape ? (
+     <MemePanelComponent memePanelNum={1} />
+      ) : (
+     <MemePanelComponent memePanelNum={1} />  
+      )}
+    </>
+  );
+};
+
+export default MemeComponent;
+
+{
+  /* <Container fluid>
       <Row>
-      <Col xs={8} xl={4} style={{ position: "relative", textAlign:"center", color: "orange" }}>
+      <Col xs={12} xl={6} style={{ position: "relative", textAlign:"center", color: "white" }}>
         <div ref={divRef} style={{position: "relative", marginBottom: "0"}}>
           {panelArray.map((panel) => {
             return panel;
           })}
-          <div style={{opacity: "0.6", position: "absolute", bottom: "0", right:"0", color: "black", background: "gray",  textAlign: "center", width: "30%", fontSize: "0.5em"}}>#MemeryBank</div>
+          <div style={{opacity: "0.6", position: "absolute", bottom: "0", right:"0", background: "gray",  textAlign: "center", width: "30%", fontSize: "0.5em"}}>#MemeryBank</div>
         </div>
-        <Row style={{ height: "4vh" }}>
-          <Button variant="primary" onClick={handleImageDownload} >
+        <Row style={{ height: "5vh" }}>
+          <div style={{background:"green", width:"100%"}} onClick={handleImageDownload} >
             DOWNLOAD
-        </Button>
+        </div>
         </Row>
       </Col>
       <Col
-        xs={4}
-        xl={4}
+        xs={12}
+        xl={6}
         style={{ position: "relative", height: "100vh" }}
         >
         <div>
           {editArray.map((panel, i) => {
             return (
               <Row key={i} style={{ height: "31.5vh"}}>
-                {/*  <MemeButtonsComponent
-                downloadDisabled={false}
-                memePanelNum={i + 1}
-          /> */}
                 <div
                   key={i}
                   className={` ${
@@ -185,16 +123,7 @@ const MemeComponent: FC<MemeComponentProps> = () => {
             );
           })}
         </div>
-        <Row style={{ height: "4vh" }}>
-          <Button 
-            variant="danger"
-            onClick={handleClearMeme}
-          > CLEAR </Button>
-        </Row>
         </Col>
         </Row>
-    </Container>
-  );
-};
-
-export default MemeComponent;
+        </Container> */
+}

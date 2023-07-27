@@ -1,16 +1,16 @@
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import { useEditImageProperties } from "@/app/stores/EditImageProperties";
 import { useMemeLayout } from "../stores/memeLayout";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Button from "react-bootstrap/Button";
+import FontFamilyComponent from "./fontFamilyComponent";
+import useOrientation from "./utils/hooks/useOrientation";
 
 interface EditImageComponentProps {
   memePanelNum: number;
 }
 
 const EditImageComponent: FC<EditImageComponentProps> = ({ memePanelNum }) => {
-  console.log("EditImageComponent Rendering");
   // Taken from store
   const editImageProperties = useEditImageProperties();
   const memeLayout = useMemeLayout();
@@ -19,6 +19,8 @@ const EditImageComponent: FC<EditImageComponentProps> = ({ memePanelNum }) => {
   const textColor = editImageProperties.editImageProperties.textColor;
   const textOutlineColor =
     editImageProperties.editImageProperties.textOutlineColor;
+  const setResizableDivVisible =
+    useEditImageProperties().setResizableDivVisible;
   const isDisabled = editImageProperties.editImageProperties.isDisabled;
   const imageResize1 = memeLayoutProperties.firstPanelResize;
   const imageResize2 = memeLayoutProperties.secondPanelResize;
@@ -35,15 +37,23 @@ const EditImageComponent: FC<EditImageComponentProps> = ({ memePanelNum }) => {
   //set values
   const setTextColor = editImageProperties.setTextColor;
   const setTextOutlineColor = editImageProperties.setTextOutlineColor;
-  const setImageTopText = editImageProperties.setImageTopText;
   const setImage2TopText = editImageProperties.setImage2TopText;
   const setImage3TopText = editImageProperties.setImage3TopText;
-  const setImageBottomText = editImageProperties.setImageBottomText;
   const setImage2BottomText = editImageProperties.setImage2BottomText;
   const setImage3BottomText = editImageProperties.setImage3BottomText;
-  const setFirstPanelResize = memeLayout.setFirstPanelResize;
-  const setSecondPanelResize = memeLayout.setSecondPanelResize;
-  const setThirdPanelResize = memeLayout.setThirdPanelResize;
+  const setImageURL = useMemeLayout().setImageURL;
+  const setImage2URL = useMemeLayout().setImage2URL;
+  const setImage3URL = useMemeLayout().setImage3URL;
+  const setImageTopText = useEditImageProperties().setImageTopText;
+  const setImageTop2Text = useEditImageProperties().setImage2TopText;
+  const setImageTop3Text = useEditImageProperties().setImage3TopText;
+  const setImageBottomText = useEditImageProperties().setImageBottomText;
+  const setImageBottom2Text = useEditImageProperties().setImage2BottomText;
+  const setImageBottom3Text = useEditImageProperties().setImage3BottomText;
+  const setFontFamily = useEditImageProperties().setFontFamily;
+  const setFirstPanelResize = useMemeLayout().setFirstPanelResize;
+  const setSecondPanelResize = useMemeLayout().setSecondPanelResize;
+  const setThirdPanelResize = useMemeLayout().setThirdPanelResize;
   //React hooks
   //useState
   const [uploadInputDisplay, setUploadInputDisplay] = useState<boolean>(false);
@@ -51,6 +61,8 @@ const EditImageComponent: FC<EditImageComponentProps> = ({ memePanelNum }) => {
   const topTexts = [imageTopText, image2TopText, image3TopText];
   const bottomTexts = [imageBottomText, image2BottomText, image3BottomText];
   const imageResizeVals = [imageResize1, imageResize2, imageResize3];
+  const orientation = useOrientation();
+  const [isLandscape, setIsLandscape] = useState<boolean>(false);
   // functions
   const handleImageResizeChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -67,10 +79,6 @@ const EditImageComponent: FC<EditImageComponentProps> = ({ memePanelNum }) => {
       console.log(event.currentTarget.value);
     }
   };
-
-  const setImageURL = useMemeLayout().setImageURL;
-  const setImage2URL = useMemeLayout().setImage2URL;
-  const setImage3URL = useMemeLayout().setImage3URL;
 
   const handleUploadInputDisplay = () => {
     setUploadInputDisplay(true);
@@ -96,7 +104,7 @@ const EditImageComponent: FC<EditImageComponentProps> = ({ memePanelNum }) => {
     isTopText: boolean
   ) => {
     const imageText = e.currentTarget.value;
-    if (e.currentTarget.value.length < 20) {
+    if (e.currentTarget.value.length < 30) {
       if (isTopText) {
         if (memePanelNum === 1) {
           setImageTopText(imageText);
@@ -129,36 +137,295 @@ const EditImageComponent: FC<EditImageComponentProps> = ({ memePanelNum }) => {
     setTextOutlineColor(imageTextColor);
   };
 
+  const handleClearMeme = () => {
+    setImageURL("");
+    setImage2URL("");
+    setImage3URL("");
+    setImageTopText("");
+    setImageTop2Text("");
+    setImageTop3Text("");
+    setImageBottomText("");
+    setImageBottom2Text("");
+    setImageBottom3Text("");
+    setFontFamily("Arial");
+    setTextColor("#000");
+    setTextOutlineColor("#000");
+    setFirstPanelResize(100);
+    setSecondPanelResize(100);
+    setThirdPanelResize(100);
+  };
+
+  useEffect(() => {
+    setIsLandscape(orientation);
+  }, [orientation]);
+
   return (
     <>
-      <Row xl={12} style={{ background: "blue"}}>
-        {uploadInputDisplay ? (
-          <Row xl={12}>
-            <input type="file" accept="image/*" onChange={handleImageChange} />
-          </Row>
-        ) : (
-            <Button style={{height:"4.2vh"}} variant="primary" onClick={handleUploadInputDisplay}>
-            UPLOAD
-          </Button>
-        )}
-      </Row>
-      <Row xl={6} style={{ height: "22vh" }}>
-        <Col xl={12} style={{textAlign: "center", color: "#fff",display: "flex", flexDirection: "column" , background: "#000"}}>
-          <div>
-            <div style={{ marginBottom: "2%" }}>
-              resize(%)
-            <input
-              type="Number"
-              name="imageResize"
-              id="imageResize"
-              value={imageResizeVals[memePanelNum - 1]}
-              onChange={handleImageResizeChange}
-                disabled={isDisabled}
-              style={{maxWidth: "calc(100% - 1em)"}}
-              />
+      {isLandscape ? (
+        <Row style={{ height: "100vh", background: "gray" }}>
+          <Col xs={12} style={{ background: "white", height: "100vh" }}>
+            <Row
+              style={{
+                textAlign: "center",
+                background: "gray",
+                height: "10vh",
+              }}
+            >
+              <FontFamilyComponent />
+            </Row>
+            <Row
+              xl={6}
+              style={{ height: "61vh", color: "black", background: "gray" }}
+            >
+              <Col
+                xs={4}
+                style={{
+                  fontSize: "0.8em",
+                  display: "flex",
+                  background: "gray",
+                }}
+              >
+                %
+                <input
+                  type="Number"
+                  name="imageResize"
+                  id="imageResize"
+                  value={imageResizeVals[memePanelNum - 1]}
+                  onChange={handleImageResizeChange}
+                  disabled={isDisabled}
+                  style={{ maxWidth: "100%", height: "5vh" }}
+                />
+              </Col>
+              <Col
+                xs={4}
+                style={{ display: "flex", height: "5vh", alignItems: "center" }}
+              >
+                Text:
+                <input
+                  type="color"
+                  name="textColor"
+                  id="textColor"
+                  value={textColor}
+                  onChange={(e) => handleImageTextColor(e)}
+                  disabled={false}
+                  style={{ height: "100%" }}
+                />
+              </Col>
+              <Col
+                xs={4}
+                style={{ display: "flex", height: "5vh", alignItems: "center" }}
+              >
+                <input
+                  type="color"
+                  name="textOutlineColor"
+                  id="textOutlineColor"
+                  value={textOutlineColor}
+                  onChange={(e) => handleImageTextOutlineColor(e)}
+                  disabled={false}
+                  style={{ height: "100%", width: "50%" }}
+                />
+              </Col>
+              <Row style={{ marginBottom: "2%", display: "flex" }}>
+                Top:
+                <input
+                  type="text"
+                  name="imageTopText"
+                  id="imageTopText"
+                  value={topTexts[memePanelNum - 1]}
+                  onChange={(e) => handleImageTextChange(e, true)}
+                  disabled={isDisabled}
+                  style={{ maxWidth: "85%", height: "10vh" }}
+                />
+              </Row>
+              <Row style={{ display: "flex" }}>
+                Bottom:
+                <input
+                  type="text"
+                  name="imageBottomText"
+                  id="imageBottomText"
+                  value={bottomTexts[memePanelNum - 1]}
+                  onChange={(e) => handleImageTextChange(e, false)}
+                  disabled={isDisabled}
+                  style={{ maxWidth: "71%", height: "10vh" }}
+                />
+              </Row>
+            </Row>
+            <Row style={{ height: "14vh", background: "red" }}>
+              <Col
+                xs={6}
+                style={{
+                  background: "blue",
+                  height: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+                onClick={handleUploadInputDisplay}
+              >
+                {uploadInputDisplay ? (
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                    style={{ width: "100%" }}
+                  />
+                ) : (
+                  <div
+                    style={{
+                      height: "5vh",
+                      width: "100%",
+                      margin: "0",
+                      color: "white",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                    onClick={handleUploadInputDisplay}
+                  >
+                    UPLOAD
+                  </div>
+                )}
+              </Col>
+              <Col
+                xs={6}
+                style={{
+                  background: "red",
+                  height: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+                onClick={handleUploadInputDisplay}
+              >
+                  <div
+                    style={{
+                      height: "5vh",
+                      width: "100%",
+                      margin: "0",
+                      color: "white",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                    onClick={handleClearMeme}
+                  >
+                    Clear
+                  </div>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+      ) : (
+        <>
+          {" "}
+          <Row style={{ background: "orange" }}>
+            <Col
+              style={{
+                background: "blue",
+                height: "5vh",
+                width: "50%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              {uploadInputDisplay ? (
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  style={{ width: "100%" }}
+                />
+              ) : (
+                <div
+                  style={{
+                    height: "5.5vh",
+                    width: "100%",
+                    margin: "0",
+                    color: "white",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                  onClick={handleUploadInputDisplay}
+                >
+                  UPLOAD
+                </div>
+              )}
+            </Col>
+            <Col
+              style={{
+                height: "5vh",
+                width: "%",
+                background: "red",
+                color: "white",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <div
+                style={{
+                  height: "5vh",
+                  width: "100%",
+                  margin: "0",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+                onClick={handleClearMeme}
+              >
+                CLEAR
               </div>
-            <div style={{ marginBottom: "2%" }}>
-              top text
+            </Col>
+          </Row>
+          <Row style={{ textAlign: "center", background: "gray" }}>
+            <FontFamilyComponent />
+          </Row>
+          <Row
+            xl={6}
+            style={{
+              height: "22vh",
+              color: "black",
+              padding: "3vw",
+              background: "gray",
+            }}
+          >
+            <Col xs={4} style={{ marginBottom: "2%", fontSize: "0.8em" }}>
+              %
+              <input
+                type="Number"
+                name="imageResize"
+                id="imageResize"
+                value={imageResizeVals[memePanelNum - 1]}
+                onChange={handleImageResizeChange}
+                disabled={isDisabled}
+                style={{ maxWidth: "calc(100% - 3em)" }}
+              />
+            </Col>
+            <Col xs={4} style={{ display: "flex" }}>
+              Text:
+              <input
+                type="color"
+                name="textColor"
+                id="textColor"
+                value={textColor}
+                onChange={(e) => handleImageTextColor(e)}
+                disabled={false}
+              />
+            </Col>
+            <Col xs={4} style={{ display: "flex" }}>
+              <input
+                type="color"
+                name="textOutlineColor"
+                id="textOutlineColor"
+                value={textOutlineColor}
+                onChange={(e) => handleImageTextOutlineColor(e)}
+                disabled={false}
+              />
+            </Col>
+            <Row style={{ marginBottom: "2%" }}>
+              Top Text:
               <input
                 type="text"
                 name="imageTopText"
@@ -166,11 +433,11 @@ const EditImageComponent: FC<EditImageComponentProps> = ({ memePanelNum }) => {
                 value={topTexts[memePanelNum - 1]}
                 onChange={(e) => handleImageTextChange(e, true)}
                 disabled={isDisabled}
-                style={{maxWidth: "calc(100% - 1em)"}}
+                style={{ maxWidth: "calc(100% - 4.5em)", height: "4vh" }}
               />
-            </div>
-            <div >
-              bottom text
+            </Row>
+            <Row>
+              Bottom:
               <input
                 type="text"
                 name="imageBottomText"
@@ -178,16 +445,14 @@ const EditImageComponent: FC<EditImageComponentProps> = ({ memePanelNum }) => {
                 value={bottomTexts[memePanelNum - 1]}
                 onChange={(e) => handleImageTextChange(e, false)}
                 disabled={isDisabled}
-                className="w-[100%]"
-                style={{maxWidth: "calc(100% - 1em)"}}
+                style={{ maxWidth: "calc(100% - 4.5em)", height: "4vh" }}
               />
-            </div>
-          </div>
-        </Col>
-      </Row>
+            </Row>
+          </Row>
+        </>
+      )}
     </>
   );
 };
 
 export default EditImageComponent;
-

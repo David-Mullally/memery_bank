@@ -8,7 +8,7 @@ import Offcanvas from "react-bootstrap/Offcanvas";
 import Link from "next/link";
 import { useNavbar } from "../stores/navbar";
 
-function OffcanvasExample() {
+function OffcanvasNavbar() {
     const currentPage = useNavbar().navbarProperties.currentPage;
     const setCurrentPage = useNavbar().setCurrentPage;
     const handleCurrentPage = (currentPage: string) => {
@@ -17,7 +17,7 @@ function OffcanvasExample() {
   return (
     <>
       {["false"].map((expand) => (
-        <Navbar style={{zIndex: "5"}} key={expand} expand={expand} className="bg-body-tertiary mb-3">
+        <Navbar style={{zIndex: "2"}} key={expand} expand={expand} className="bg-body-tertiary">
           <Container fluid>
           <Link href="/" legacyBehavior passHref>
             <Navbar.Brand href="/">MemeryBank</Navbar.Brand>
@@ -127,4 +127,4 @@ function OffcanvasExample() {
   );
 }
 
-export default OffcanvasExample;
+export default OffcanvasNavbar;

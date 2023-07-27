@@ -1,8 +1,10 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState, useEffect } from "react";
 import { useEditImageProperties } from "@/app/stores/EditImageProperties";
 import { useMemeLayout } from "@/app/stores/memeLayout";
 import DraggableElement from "./draggableComponent";
-import Row from "react-bootstrap/Row"
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col"
+import useOrientation from "./utils/hooks/useOrientation";
 
 interface MemePanelComponentProps {
   memePanelNum: number;
@@ -34,15 +36,27 @@ const MemePanelComponent: FC<MemePanelComponentProps> = ({ memePanelNum }) => {
   const imageURLs = [imageURL, image2URL, image3URL];
   const imageResizeVals = [imageResize1, imageResize2, imageResize3];
   // Functions
+  const [isLandscape, setIsLandscape] = useState<boolean>(false);
+  const orientation = useOrientation();
+  let height = "";
+  let width = "";
+  isLandscape ? height = "100vh" : height = "30vh"
+  isLandscape ? width = "75vw" : width = "100vw"
+  useEffect(() => {
+    setIsLandscape(orientation)
+  }, [orientation])
 
   return (
-    <Row style={{height: "31.5vh", backgroundColor: "white", display: "flex", alignItems: "center", textAlign: "center", border: "1px solid gray", opacity: "0.95"}}>
+  <>
       {imageURL ? (
         <div
           style={{
             backgroundImage: `url(${imageURLs[memePanelNum - 1]})`,
             backgroundSize: `${imageResizeVals[memePanelNum - 1]}%`,
             backgroundRepeat: "no-repeat",
+            height: height,
+            width: width,
+            background: "white"
           }}
         >
           <DraggableElement isTopText={true} defaultPosition={{ x: 0, y: 0 }} memePanelNum={memePanelNum} />
@@ -53,7 +67,11 @@ const MemePanelComponent: FC<MemePanelComponentProps> = ({ memePanelNum }) => {
           />
         </div>
       ) : (
-          <div>
+          <div  style={{
+            height: height,
+            background: "white",
+            width: width
+          }}>
             <DraggableElement isTopText={true} defaultPosition={{ x: 0, y: 0 }} memePanelNum={memePanelNum} />
           <DraggableElement
             isTopText={false}
@@ -62,7 +80,7 @@ const MemePanelComponent: FC<MemePanelComponentProps> = ({ memePanelNum }) => {
           />
         </div>
       )}
-    </Row>
+    </>
   );
 };
 

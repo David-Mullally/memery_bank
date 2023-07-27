@@ -1,6 +1,8 @@
-import React from "react";
+import React,{useState, useEffect} from "react";
 import Draggable, { DraggableData, DraggableEvent } from "react-draggable";
 import { useEditImageProperties } from "../stores/EditImageProperties";
+import useOrientation from "./utils/hooks/useOrientation";
+
 
 interface DraggableElementProps {
   defaultPosition: { x: number; y: number };
@@ -27,6 +29,8 @@ const DraggableElement: React.FC<DraggableElementProps> = ({
     useEditImageProperties().editImageProperties.resizableDivVisible;
   const parentRef = React.useRef<HTMLDivElement>(null);
   const elementRef = React.useRef<HTMLDivElement>(null);
+  const orientation = useOrientation();
+  const [isLandscape, setIsLandscape] = useState<boolean>(false);
 
   const handleDrag = (e: DraggableEvent, data: DraggableData) => {
     // Calculate the parent's bounding rectangle
@@ -46,6 +50,10 @@ const DraggableElement: React.FC<DraggableElementProps> = ({
     // Set the new position for the draggable element
     data.node.style.transform = `translate(${x}px, ${y}px)`;
   };
+
+  useEffect(() => {
+    setIsLandscape(orientation);
+  }, [orientation]);
 
   let content = "";
   if (isTopText) {
@@ -72,9 +80,10 @@ const DraggableElement: React.FC<DraggableElementProps> = ({
       style={{
         border: resizableDivVisible ? "1px solid #ccc" : "",
         position: "relative",
-        height: "13vh",
         maxWidth: "100%",
         overflow: "hidden",
+        height: "50%",
+        width: "100%",
       }}
     >
       {/* Draggable Element */}
@@ -87,10 +96,11 @@ const DraggableElement: React.FC<DraggableElementProps> = ({
         <div
           ref={elementRef}
           style={{
+            textAlign: "center",
             border: resizableDivVisible ? "1px solid #f00" : "",
             cursor: "move",
             maxWidth: "100%",
-            fontSize: "7vw",
+            fontSize: "1.4rem",
             fontFamily: `${fontFamily}`,
             color: `${imageTextColor}`,
             textShadow: `-1px -1px 0 ${imageTextOutlineColor}, 1px -1px 0 ${imageTextOutlineColor}, -1px 1px 0 ${imageTextOutlineColor}, 1px 1px 0 ${imageTextOutlineColor}`,

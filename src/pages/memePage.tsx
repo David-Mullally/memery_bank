@@ -63,8 +63,9 @@ const MemePage: React.FC = () => {
         {isLandscape ? (
           <Row style={{ height: "50vh"}}>
             <Col xs={8} style={{height: "30vh", background: "#E5E5E5" }}>
-              <Row style={{ height: "71vh", backgroundImage: `url("${imageURL}")`, backgroundSize: "cover"}}  ref={divRef}>
+              <Row style={{ height: "71vh", backgroundImage: `url("${imageURL}")`, backgroundSize: "cover", position: "relative"}}  ref={divRef}>
                 {" "}
+                <div style={{position: "absolute", bottom: "0", right: "0", color: "white", width: "30%", background: "gray", borderRadius: "5px"}}>#MemeryBank</div>
                 <DraggableElement
                   isTopText={true}
                   memePanelNum={1}
@@ -90,7 +91,8 @@ const MemePage: React.FC = () => {
           </Row>
         ) : (
           <>
-            <Col style={{  backgroundImage: `url("${imageURL}")`, backgroundSize: "cover", height: "30vh" }} ref={divRef}>
+              <Col style={{ backgroundImage: `url("${imageURL}")`, backgroundSize: "cover", height: "30vh", position: "relative" }} ref={divRef}>
+              <div style={{position: "absolute", bottom: "0", right: "2px", color: "white", width: "40%", background: "gray", borderRadius: "2px", marginRight: "2px"}}>#MemeryBank</div>
               <DraggableElement
                 isTopText={true}
                 memePanelNum={1}

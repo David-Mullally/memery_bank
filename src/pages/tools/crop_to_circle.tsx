@@ -26,7 +26,7 @@ const CropToCirclePage: React.FC = () => {
               <OffcanvasNavbar />
           </Row>
       <Col>
-        <Row style={{ textAlign: "center", width: "100vw", marginTop: "10vh" }}>
+        <Row style={{ textAlign: "center", width: "100vw", marginTop: "4vh" }}>
           {isLandscape ? (
             <h5 style={{ color: "black" }}> Crop Image To Circle</h5>
           ) : (
@@ -36,7 +36,7 @@ const CropToCirclePage: React.FC = () => {
         {isLandscape ? (
           <Row
             style={{
-              height: " 63vh",
+              height: " 67vh",
               width: "100vw",
               display: "flex",
               justifyContent: "center",

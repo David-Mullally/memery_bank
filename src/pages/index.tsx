@@ -10,7 +10,7 @@ const HomePage: React.FC = () => {
   const [isLandscape, setIsLandscape] = useState<boolean>(false);
   const slogan = "THINK IT. MAKE IT. MEME IT.";
   const status =
-    "This Site Is Currently Under Construction!! But There Is A Basic Meme Creator Available...";
+    "This Site Is Currently Under Construction!! But There are some basic features to try ...Enjoy!";
 
   useEffect(() => {
     setIsLandscape(orientation);
@@ -61,6 +61,7 @@ const HomePage: React.FC = () => {
                 {" "}
                 {status}
               </span>
+              
               <Link
                 style={{
                   textDecoration: "none",
@@ -84,11 +85,12 @@ const HomePage: React.FC = () => {
                 height={100}
                 style={{ zIndex: "2" }}
               />
-              <h4 style={{ zIndex: "2" }}>{slogan}</h4>
-              <span style={{ zIndex: "2", fontSize: "0.6em", width: "57vw" , textAlign: "center"}}>
+              <h2 style={{ zIndex: "2" }}>{slogan}</h2>
+              <span style={{ zIndex: "2", fontSize: "0.9em", width: "65vw" , textAlign: "center"}}>
                 {" "}
                 {status}
-              </span>
+                </span>
+                <div style={{display: "flex"}}>
               <Link
                 style={{
                   textDecoration: "none",
@@ -101,7 +103,21 @@ const HomePage: React.FC = () => {
                 href="/meme_page"
               >
                 Start Memeing
-              </Link>
+                </Link>
+                <Link
+                style={{
+                  textDecoration: "none",
+                  zIndex: "2",
+                  color: "white",
+                  border: "3px solid yellow",
+                  borderRadius: "10px",
+                  padding: "0.1em",
+                }}
+                href="/tools/crop_to_circle"
+              >
+                Crop To Circle
+                </Link>
+              </div>
             </>
           )}
         </Col>

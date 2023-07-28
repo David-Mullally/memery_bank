@@ -70,7 +70,7 @@ const HomePage: React.FC = () => {
                   borderRadius: "10px",
                   padding: "0.1em",
                 }}
-                href="/memePage"
+                href="/meme_page"
               >
                 Start Memeing
               </Link>
@@ -98,7 +98,7 @@ const HomePage: React.FC = () => {
                   borderRadius: "10px",
                   padding: "0.1em",
                 }}
-                href="/memePage"
+                href="/meme_page"
               >
                 Start Memeing
               </Link>

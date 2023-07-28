@@ -1,5 +1,3 @@
-// pages/about.tsx
-"use client";
 import React from "react";
 
 const AboutPage: React.FC = () => {

@@ -1,9 +1,7 @@
 import React, { FC, useState, useEffect } from "react";
 import { useEditImageProperties } from "@/app/stores/EditImageProperties";
 import { useMemeLayout } from "@/app/stores/memeLayout";
-import DraggableElement from "./draggableComponent";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col"
+import DraggableElement from "./draggableElement";
 import useOrientation from "./utils/hooks/useOrientation";
 
 interface MemePanelComponentProps {

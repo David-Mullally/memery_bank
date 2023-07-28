@@ -4,7 +4,7 @@ import EditImageComponent from "@/app/components/EditImageComponent";
 import { useState, useEffect, useRef } from "react";
 import useOrientation from "@/app/components/utils/hooks/useOrientation";
 import OffcanvasNavbar from "@/app/components/NavbarComponent";
-import DraggableElement from "@/app/components/draggableComponent";
+import DraggableElement from "@/app/components/draggableElement";
 import { useEditImageProperties } from "@/app/stores/EditImageProperties";
 import html2canvas from "html2canvas";
 

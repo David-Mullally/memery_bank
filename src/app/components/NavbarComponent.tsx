@@ -65,21 +65,50 @@ function OffcanvasNavbar() {
                       </a>
                     )}
                   </Link>
-                  <Link href="/memePage" legacyBehavior>
-                    {currentPage === "/memePage" ? (
+                  <Link href="/meme_page" legacyBehavior>
+                    {currentPage === "/meme_page" ? (
                       <a
-                        onClick={()=>handleCurrentPage("/memePage")}
+                        onClick={()=>handleCurrentPage("/meme_page")}
                         className="nav-link"
                         style={{ borderBottom: "1px solid yellow" }}
                       >
                         Make Memes
                       </a>
                     ) : (
-                      <a onClick={()=>handleCurrentPage("/memePage")} className="nav-link">
+                      <a onClick={()=>handleCurrentPage("/meme_page")} className="nav-link">
                         Make Memes
                       </a>
                     )}
                   </Link>
+                   <NavDropdown
+                    title="Tools"
+                    id={`offcanvasNavbarDropdown-expand-${expand}`}
+                  >
+                    <NavDropdown.Item href="/tools/crop_to_circle">
+                    <Link href="/tools/crop_to_circle" legacyBehavior>
+                    {currentPage === "/tools/crop-to-circle" ? (
+                      <a
+                        onClick={()=>handleCurrentPage("/tools/crop_to_circle")}
+                        className="nav-link"
+                        style={{ borderBottom: "1px solid yellow" }}
+                      >
+                        Crop To Circle
+                      </a>
+                    ) : (
+                      <a onClick={()=>handleCurrentPage("/tools/crop-to-circle")} className="nav-link">
+                        Crop To Circle
+                      </a>
+                    )}
+                  </Link>
+                    </NavDropdown.Item>
+                    <NavDropdown.Item href="/tools/superimpose">
+                      Superimpose (Coming Soon!)
+                    </NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item href="#action5">
+                      ??? (Coming Soon)
+                    </NavDropdown.Item>
+                  </NavDropdown>
                   <Link href="/contact" legacyBehavior>
                     {currentPage === "/contact" ? (
                       <a
@@ -95,19 +124,6 @@ function OffcanvasNavbar() {
                       </a>
                     )}
                   </Link>
-                  {/* <NavDropdown
-                    title="Dropdown"
-                    id={`offcanvasNavbarDropdown-expand-${expand}`}
-                  >
-                    <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
-                    <NavDropdown.Item href="#action4">
-                      Another action
-                    </NavDropdown.Item>
-                    <NavDropdown.Divider />
-                    <NavDropdown.Item href="#action5">
-                      Something else here
-                    </NavDropdown.Item>
-      </NavDropdown>*/}
                 </Nav>
                 {/*<Form className="d-flex">
                   <Form.Control
